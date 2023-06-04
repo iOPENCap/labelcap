@@ -20,10 +20,10 @@ export async function POST(
                 caption_zh: caption['sentences'],
             })
         }
-
+        console.log('ok')
         return NextResponse.json({ itemList: itemList });
     } catch (err: any) {
         console.log(err);
         return new NextResponse('Internal Error', { status: 500 });
-      }
+    }
 }

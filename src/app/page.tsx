@@ -1,21 +1,60 @@
-import { Textarea } from "@/components/ui/textarea";
-import Image from "next/image";
+"use client";
+
+import React, { useState, useEffect } from 'react';
+import Box from "@/components/Box";
+import { CaptionItem } from '@/types';
+
+const getCaptions = async () => {
+    try {
+        const res: Response = await fetch(`/api/get-captions`, {
+            method: 'POST',
+            headers: new Headers({ 'content-type': 'application/json' }),
+            body: JSON.stringify({ user: 'gcx' }),
+        });
+
+        if (!await res.ok) {
+            console.log('error when fetching captions');
+            throw new Error(res.statusText);
+        }
+
+        const data = await res.json();
+        return data.itemList;
+    } catch (error) {
+        console.log(error);
+
+        return ['error'];
+    }
+
+}
 
 export default function Home() {
-  return (
-    <main className="flex flex-row min-h-screen w-full p-12 pr-4 space-x-8">
-      <div className="w-full">
-        <h1 className="text-xl font-bold">Image Title</h1>
-        <div className="flex flex-row space-x-8">
-          <Image className="pt-6 hover:brightness-110" src="/data/server/NWPU-RESISC45/commercial_area/commercial_area_001.jpg"
-            alt="commercial_area_001.jpg" width={300} height={300} />
-          <Textarea />
-        </div>
+    const [captions, setCaptions] = useState<CaptionItem[]>([]);
 
-      </div>
-      <div className="">
+    const onSubmit = async () => {
+    }
 
-      </div>
-    </main>
-  )
+    useEffect(() => {
+        const fetchCaptions = async () => {
+            getCaptions().then(
+                (data) => {
+                    setCaptions(data);
+                }
+            );
+        };
+        fetchCaptions();
+    }, []);
+    
+
+    return (
+        <main className="flex flex-col min-h-screen w-full mt-4 space-y-8">
+            {captions.length > 0 && captions.slice(0, 2).map((item, index) => (
+                <Box key={index} title={item.title}
+                    image_src={item.image_src}
+                    image_id={item.image_id}
+                    caption_en={item.caption_en.join('\n')}
+                    caption_zh={item.caption_zh.join('\n')}
+                    onSubmit={onSubmit} />
+            ))}
+        </main>
+    )
 }
