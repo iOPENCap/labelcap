@@ -26,6 +26,7 @@ const Box: React.FC<BoxProps> = ({
 }) => {
 
     return (
+        // TODO: 添加卡片关闭动画
         <div className={twMerge('w-full flex-col flex items-start rounded-md border p-4 hover:bg-slate-100 shadow-md hover:shadow-lg',
             className)}>
             <div className="flex flex-row mt-6 ">

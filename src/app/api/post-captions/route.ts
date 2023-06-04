@@ -9,7 +9,7 @@ export async function POST(
     try {
         const { captionItem, user } = await req.json();
         
-        // write new caption to file
+        // 将新caption写入到new文件夹中
         const newCaption = {
             'filename': captionItem.title,
             'imgid': captionItem.image_id,
@@ -19,7 +19,13 @@ export async function POST(
         if (!fs.existsSync(`public/data/${user}/captions`)) {
             fs.mkdirSync(`public/data/${user}/captions`, { recursive: true });
         }
-        fs.writeFileSync(`public/data/${user}/captions/${captionItem.title}.json`, JSON.stringify(newCaption));
+        fs.writeFileSync(`public/data/${user}/captions/new/${captionItem.title}.json`, JSON.stringify(newCaption));
+
+        // 在raw中删除该caption
+        const raw = fs.readFileSync(`public/data/${user}/captions/raw.json`, 'utf8')
+        const raw_captions = await JSON.parse(raw);
+        const new_raw_captions = raw_captions.filter((caption: any) => caption['filename'] !== captionItem.title);
+        fs.writeFileSync(`public/data/${user}/captions/raw.json`, JSON.stringify(new_raw_captions));
 
     } catch (err: any) {
         console.log(err);

@@ -82,7 +82,7 @@ export default function Home() {
                     image_id={item.image_id}
                     caption_en={item.caption_en.join('\n')}
                     caption_zh={item.caption_zh.join('\n')}
-                    category={item.title.split('_')[0]}
+                    category={item.title.substring(0, item.title.lastIndexOf('_'))}
                     onSubmit={() => onSubmit(index)} />
             ))}
         </main>

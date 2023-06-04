@@ -1,6 +1,5 @@
-
-import fs from 'fs';
 import { CaptionItem } from '@/types';
+import fs from 'fs';
 import { NextResponse } from 'next/server';
 
 export async function POST(
@@ -9,11 +8,14 @@ export async function POST(
     try {
         const { user } = await req.json();
 
-        const data = fs.readFileSync(`public/data/${user}/captions/raw.json`, 'utf8')
-        const captions = await JSON.parse(data);
+        const directoryPath = `public/data/${user}/captions/new`;
+        const files = fs.readdirSync(directoryPath);
 
         const itemList: CaptionItem[] = [];
-        for (const caption of captions) {
+        for (const file of files) {
+            const data = fs.readFileSync(`${directoryPath}/${file}`, 'utf8')
+            const caption = await JSON.parse(data);
+
             const category = caption['filename'].substring(0, caption['filename'].lastIndexOf('_'));
 
             itemList.push({
@@ -24,7 +26,9 @@ export async function POST(
                 caption_zh: caption['sentences'],
             })
         }
+
         return NextResponse.json({ itemList: itemList });
+
     } catch (err: any) {
         console.log(err);
         return new NextResponse('Internal Error', { status: 500 });
