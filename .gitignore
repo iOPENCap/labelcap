@@ -34,5 +34,5 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# dataset
-public/data/server/NWPU-RESISC45
+# user data
+public/data/
