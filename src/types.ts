@@ -6,3 +6,8 @@ export interface CaptionItem {
     caption_en: string[],
     caption_zh: string[],
 }
+
+export interface User {
+    username: string,
+    password: string,
+}

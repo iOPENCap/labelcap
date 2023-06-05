@@ -2,7 +2,9 @@
 
 import React, { useState, useEffect } from 'react';
 import Box from "@/components/Box";
-import { CaptionItem } from '@/types';
+import { CaptionItem, User } from '@/types';
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 
 const getCaptions = async () => {
     try {
@@ -44,13 +46,39 @@ const postCaptions = async (captionItem: CaptionItem, user: string) => {
     }
 }
 
+const getAuth = async (user: User) => {
+    try {
+
+        const res: Response = await fetch(`/api/auth`, {
+            method: 'POST',
+            headers: new Headers({ 'content-type': 'application/json' }),
+            body: JSON.stringify({ user: user }),
+        });
+
+        if (!await res.ok) {
+            console.log('error when fetching auth');
+            throw new Error(res.statusText);
+        }
+
+        const data = await res.json();
+        return data.authed;
+    } catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
 export default function Home() {
     const [captions, setCaptions] = useState<CaptionItem[]>([]);
+    const [authed, setAuthed] = useState<boolean>(false);
+    const [username, setUsername] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
 
     const onSubmit = async (index: number) => {
-        
+
         // 发送验证后的caption
         // TODO: change user
+        // FIXME: 修改的信息没有更新
         postCaptions(captions[index], 'gcx').then(
             () => {
                 setCaptions((prevItems) => {
@@ -73,10 +101,24 @@ export default function Home() {
         fetchCaptions();
     }, []);
 
-
     return (
         <main className="flex flex-col min-h-screen w-full mt-8 space-y-8">
-            {captions.length > 0 && captions.slice(0, 4).map((item, index) => (
+            <div className="flex flex-col items-center justify-center">
+                <div className="grid w-full max-w-sm items-center gap-1.5 border-black border-2 p-20 rounded-xl">
+                    <Label htmlFor="Username">Username</Label>
+                    <Input type="Username" id="Username" placeholder="Username" />
+                    <Label htmlFor="Password" className='mt-6'>Password</Label>
+                    <Input type="Password" id="Password" placeholder="Password" />
+                    <div>
+                        <button className=" bg-zinc-800 hover:bg-zinc-600 text-white py-2 px-4 rounded-md mt-8"
+                            onClick={() => { getAuth({ username: 'gcx', password: 'gcx@iopen' }) }}>
+                            Login
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            {captions.length > 0 && authed && captions.slice(0, 4).map((item, index) => (
                 <Box key={index} title={item.title}
                     image_src={item.image_src}
                     image_id={item.image_id}
