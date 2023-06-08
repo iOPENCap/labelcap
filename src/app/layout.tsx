@@ -1,4 +1,5 @@
 import Topbar from '@/components/Topbar'
+import { Toaster } from '@/components/Toaster'
 import './globals.css'
 
 
@@ -15,7 +16,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Topbar>{children}</Topbar>
+        <main>{children}</main>
+        <Toaster />
       </body>
     </html>
   )
