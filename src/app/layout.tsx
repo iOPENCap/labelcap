@@ -1,14 +1,13 @@
-import Topbar from '@/components/Topbar'
 import { Toaster } from '@/components/Toaster'
 import './globals.css'
-
+import AuthContext from './context/AuthContext'
 
 export const metadata = {
   title: 'Label Captions',
   description: 'label and check',
 }
 
-export default function RootLayout({
+export default function MainLayout({
   children,
 }: {
   children: React.ReactNode
@@ -16,8 +15,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <main>{children}</main>
-        <Toaster />
+        <AuthContext>
+          <Toaster />
+          {children}
+        </AuthContext>
       </body>
     </html>
   )

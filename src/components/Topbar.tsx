@@ -2,6 +2,8 @@
 
 import { useMemo } from "react";
 import { usePathname } from "next/navigation";
+import { signOut } from 'next-auth/react'
+import { useRouter } from 'next/navigation';
 
 interface TopbarProps {
     children: React.ReactNode;
@@ -15,19 +17,24 @@ const Topbar: React.FC<TopbarProps> = ({
     const pathname = usePathname();
 
     const routes = useMemo(() => [
-        { name: 'Label', href: '/', active: pathname === '/' },
-        { name: 'Stat', href: '/stat', active: pathname === '/stat' },
-        { name: 'History', href: '/history', active: pathname === '/history' },
+        { name: 'Label', href: '/main', active: pathname === '/main' },
+        { name: 'Stat', href: '/main/stat', active: pathname === '/main/stat' },
+        { name: 'History', href: '/main/history', active: pathname === '/main/history' },
     ], [pathname])
+    const router = useRouter();
 
     return (
         <div className="top-0 w-full bg-gray-100 p-4 z-50">
             <div className="flex items-center justify-between">
-                <div className="text-2xl font-bold">Label Captions</div>
+                <h1 className="text-2xl font-bold">Label Captions</h1>
                 <div className="flex space-x-8">
                     {routes.map(route => (
                         <a key={route.href} href={route.href} className="text-gray-600 hover:text-gray-800">{route.name}</a>
                     ))}
+                    <button className="text-gray-600 hover:text-gray-800"
+                        onClick={() => { signOut(); }}>
+                        Logout
+                    </button>
                 </div>
             </div>
             {children}
