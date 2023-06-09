@@ -7,7 +7,7 @@ export const metadata = {
   description: 'label and check',
 }
 
-export default function MainLayout({
+export default function RootLayout({
   children,
 }: {
   children: React.ReactNode

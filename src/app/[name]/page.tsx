@@ -2,16 +2,16 @@
 
 import Box from "@/components/Box";
 import { CaptionItem } from "@/types";
-import { signOut } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
+import getCurrentUser from "../actions/getCurrentUser";
 
-const getCaptions = async () => {
+const getCaptions = async (user: string) => {
     try {
         const res: Response = await fetch(`/api/get-captions`, {
             method: 'POST',
             headers: new Headers({ 'content-type': 'application/json' }),
-            // TODO: change user
-            body: JSON.stringify({ user: 'gcx' }),
+            body: JSON.stringify({ user: user }),
         });
 
         if (!res.ok) {
@@ -44,15 +44,20 @@ const postCaptions = async (captionItem: CaptionItem, user: string) => {
         console.log(error);
     }
 }
+import React, { FC } from 'react';
 
-export default function Label() {
+interface LabelProps {
+    params: { name: string }
+}
+
+const Label: FC<LabelProps> = ({ params }) => {
     const [captions, setCaptions] = useState<CaptionItem[]>([]);
+    const user = params.name;
 
     const onSubmit = async (captionItem: CaptionItem, index: number) => {
         console.log(captionItem);
         // 发送验证后的caption
-        // TODO: change user
-        postCaptions(captionItem, 'gcx').then(
+        postCaptions(captionItem, user).then(
             () => {
                 // 更新caption
                 const newCaptions = [...captions];
@@ -64,7 +69,7 @@ export default function Label() {
 
     useEffect(() => {
         const fetchCaptions = async () => {
-            getCaptions().then(
+            getCaptions(user).then(
                 (data) => {
                     setCaptions(data);
                 }
@@ -88,3 +93,5 @@ export default function Label() {
         </div>
     )
 }
+
+export default Label;

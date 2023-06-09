@@ -3,7 +3,7 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, } from "@/components/ui/accordion"
 import { CaptionItem } from "@/types";
 import Image from "next/image"
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import Box from "@/components/Box";
 
 const getHistory = async (user: string) => {
@@ -47,8 +47,14 @@ const postCaptions = async (captionItem: CaptionItem, user: string) => {
     }
 }
 
-export default function Home() {
+interface HistoryProps {
+    params: { name: string }
+}
+
+const Hisroty: FC<HistoryProps> = ({ params }) => {
     const [history, setHistory] = useState<CaptionItem[]>([]);
+    const { name } = params;
+    console.log(name);
 
     useEffect(() => {
         const fetchHistory = async () => {
@@ -63,17 +69,14 @@ export default function Home() {
         fetchHistory();
     }, []);
 
-    const onSubmit = async (index: number) => {
-        
+    const onSubmit = async (captionItem: CaptionItem, index: number) => {
         // 发送验证后的caption
-        // TODO: change user
-        postCaptions(history[index], 'gcx').then(
+        postCaptions(captionItem, name).then(
             () => {
-                setHistory((prevItems) => {
-                    const newItems = [...prevItems];
-                    newItems.splice(index, 1);
-                    return newItems;
-                });
+                // 更新caption
+                const newCaptions = [...history];
+                newCaptions[index] = captionItem;
+                setHistory(newCaptions);
             }
         )
     }
@@ -89,12 +92,13 @@ export default function Home() {
                         </AccordionTrigger>
                         <AccordionContent key={index}>
                             <Box key={index} title={item.title}
+                                id={index}
                                 image_src={item.image_src}
                                 image_id={item.image_id}
-                                caption_en={item.caption_en.join('\n')}
-                                caption_zh={item.caption_zh.join('\n')}
+                                caption_en={item.caption_en}
+                                caption_zh={item.caption_zh}
                                 category={item.title.substring(0, item.title.lastIndexOf('_'))}
-                                onSubmit={() => onSubmit(index)} />
+                                onSubmit={(captionItem) => onSubmit(captionItem, index)} />
                         </AccordionContent>
                     </AccordionItem>
                 ))}
@@ -103,3 +107,5 @@ export default function Home() {
         </div>
     )
 }
+
+export default Hisroty;

@@ -8,18 +8,20 @@ import { useRouter } from 'next/navigation';
 interface TopbarProps {
     children: React.ReactNode;
     className?: string;
+    user: string;
 }
 
 const Topbar: React.FC<TopbarProps> = ({
     children,
     className,
+    user,
 }) => {
     const pathname = usePathname();
 
     const routes = useMemo(() => [
-        { name: 'Label', href: '/main', active: pathname === '/main' },
-        { name: 'Stat', href: '/main/stat', active: pathname === '/main/stat' },
-        { name: 'History', href: '/main/history', active: pathname === '/main/history' },
+        { name: 'Label', href: `/{user}`, active: pathname === `/{user}` },
+        { name: 'Stat', href: `/{user}/stat`, active: pathname === `/{user}/stat` },
+        { name: 'History', href: `/{user}/history`, active: pathname === `/{user}/history` },
     ], [pathname])
     const router = useRouter();
 
@@ -32,7 +34,7 @@ const Topbar: React.FC<TopbarProps> = ({
                         <a key={route.href} href={route.href} className="text-gray-600 hover:text-gray-800">{route.name}</a>
                     ))}
                     <button className="text-gray-600 hover:text-gray-800"
-                        onClick={() => { signOut(); }}>
+                        onClick={() => { signOut() }}>
                         Logout
                     </button>
                 </div>
