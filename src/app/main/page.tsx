@@ -14,7 +14,7 @@ const getCaptions = async () => {
             body: JSON.stringify({ user: 'gcx' }),
         });
 
-        if (!await res.ok) {
+        if (!res.ok) {
             console.log('error when fetching captions');
             throw new Error(res.statusText);
         }
@@ -35,7 +35,7 @@ const postCaptions = async (captionItem: CaptionItem, user: string) => {
             body: JSON.stringify({ captionItem: captionItem, user: user }),
         });
 
-        if (!await res.ok) {
+        if (!res.ok) {
             console.log('error when posting caption');
             throw new Error(res.statusText);
         }
@@ -48,18 +48,16 @@ const postCaptions = async (captionItem: CaptionItem, user: string) => {
 export default function Label() {
     const [captions, setCaptions] = useState<CaptionItem[]>([]);
 
-    const onSubmit = async (index: number) => {
-
+    const onSubmit = async (captionItem: CaptionItem, index: number) => {
+        console.log(captionItem);
         // 发送验证后的caption
         // TODO: change user
-        // FIXME: 修改的信息没有更新
-        postCaptions(captions[index], 'gcx').then(
+        postCaptions(captionItem, 'gcx').then(
             () => {
-                setCaptions((prevItems) => {
-                    const newItems = [...prevItems];
-                    newItems.splice(index, 1);
-                    return newItems;
-                });
+                // 更新caption
+                const newCaptions = [...captions];
+                newCaptions[index] = captionItem;
+                setCaptions(newCaptions);
             }
         )
     }
@@ -79,12 +77,13 @@ export default function Label() {
         <div className="flex flex-col min-h-screen w-full mt-8 space-y-8">
             {captions.length > 0 && captions.slice(0, 4).map((item, index) => (
                 <Box key={index} title={item.title}
+                    id={index}
                     image_src={item.image_src}
                     image_id={item.image_id}
-                    caption_en={item.caption_en.join('\n')}
-                    caption_zh={item.caption_zh.join('\n')}
+                    caption_en={item.caption_en}
+                    caption_zh={item.caption_zh}
                     category={item.title.substring(0, item.title.lastIndexOf('_'))}
-                    onSubmit={() => onSubmit(index)} />
+                    onSubmit={(captionItem) => onSubmit(captionItem, index)} />
             ))}
         </div>
     )

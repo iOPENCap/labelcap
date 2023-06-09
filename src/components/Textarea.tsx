@@ -14,7 +14,7 @@ const Textarea: React.FC<TextareaProps> = ({
     const [value, setValue] = useState(content);
 
     return (
-        <textarea className={twMerge(className, "w-full h-[42rem] p-4 border border-gray-300 rounded-md")} value={value}
+        <textarea className={twMerge("p-4 border border-gray-300 rounded-md", className)} value={value}
             onChange={(event) => setValue(event.target.value)}>
 
         </textarea>
