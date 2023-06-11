@@ -19,9 +19,9 @@ const Topbar: React.FC<TopbarProps> = ({
     const pathname = usePathname();
 
     const routes = useMemo(() => [
-        { name: 'Label', href: `/{user}`, active: pathname === `/{user}` },
-        { name: 'Stat', href: `/{user}/stat`, active: pathname === `/{user}/stat` },
-        { name: 'History', href: `/{user}/history`, active: pathname === `/{user}/history` },
+        { name: 'Label', href: `/${user}`, active: pathname === `/${user}` },
+        { name: 'Stat', href: `/${user}/stat`, active: pathname === `/${user}/stat` },
+        { name: 'History', href: `/${user}/history`, active: pathname === `/${user}/history` },
     ], [pathname])
     const router = useRouter();
 
@@ -34,7 +34,7 @@ const Topbar: React.FC<TopbarProps> = ({
                         <a key={route.href} href={route.href} className="text-gray-600 hover:text-gray-800">{route.name}</a>
                     ))}
                     <button className="text-gray-600 hover:text-gray-800"
-                        onClick={() => { signOut() }}>
+                        onClick={() => { signOut(); router.push(`/`) }}>
                         Logout
                     </button>
                 </div>
