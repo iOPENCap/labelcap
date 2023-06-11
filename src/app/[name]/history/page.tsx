@@ -11,7 +11,6 @@ const getHistory = async (user: string) => {
         const res: Response = await fetch(`/api/get-history`, {
             method: 'POST',
             headers: new Headers({ 'Content-Type': 'application/json' }),
-            // TODO: change user
             body: JSON.stringify({ user: user }),
         });
 
@@ -58,7 +57,7 @@ const Hisroty: FC<HistoryProps> = ({ params }) => {
 
     useEffect(() => {
         const fetchHistory = async () => {
-            getHistory('gcx').then(
+            getHistory(name).then(
                 (data) => {
                     setHistory(data);
                     console.log(data);
