@@ -16,8 +16,8 @@ export async function POST(
             'sentences': captionItem.caption_en,
         }
 
-        if (!fs.existsSync(`public/data/${user}/captions`)) {
-            fs.mkdirSync(`public/data/${user}/captions`, { recursive: true });
+        if (!fs.existsSync(`public/data/${user}/captions/new`)) {
+            fs.mkdirSync(`public/data/${user}/captions/new`, { recursive: true });
         }
         fs.writeFileSync(`public/data/${user}/captions/new/${captionItem.title}.json`, JSON.stringify(newCaption));
 
