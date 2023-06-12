@@ -35,12 +35,13 @@ const Box: React.FC<BoxProps> = ({
 
     const [isFixed, setIsFixed] = useState(false);
 
-    const handleFixImage = () => {
-        setIsFixed(true);
-    };
-
     const imageStyle = isFixed
-        ? { position: "fixed", top: "10", left: "10" }
+        ? {
+            position: "fixed",
+            top: "10px",
+            left: "10px",
+            boxShadow: "0px 7px 7px rgba(0, 0, 0, 0.3)"
+        }
         : {};
 
     return (
@@ -50,7 +51,7 @@ const Box: React.FC<BoxProps> = ({
                 'w-full flex-col flex items-start rounded-md border p-4 hover:bg-slate-100 shadow-md hover:shadow-lg',
                 className)}>
             <div className="flex flex-col md:flex-row mt-6 ">
-                <Image className="hover:brightness-110 z-10" src={image_src}
+                <Image className="hover:brightness-110 z-10 left-4 top-4" src={image_src}
                     alt="image" width={300} height={300}
                     style={imageStyle} />
                 {
