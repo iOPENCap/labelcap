@@ -139,7 +139,7 @@ const Box: React.FC<BoxProps> = ({
                             ${isFixed ? 'bg-zinc-800' : 'bg-zinc-500'}
                             relative 
                             inline-flex 
-                            h-[38px] w-[74px]
+                            h-[28px] w-[74px]
                             cursor-pointer 
                             rounded-full 
                             border-2 
@@ -157,7 +157,7 @@ const Box: React.FC<BoxProps> = ({
                             aria-hidden="true"
                             className={`
                                 ${isFixed ? 'translate-x-9' : 'translate-x-0'}
-                                pointer-events-none inline-block h-[34px] w-[34px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out
+                                pointer-events-none inline-block h-[24px] w-[34px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out
                             `}
                         />
                     </Switch>
