@@ -2,9 +2,7 @@
 
 import Box from "@/components/Box";
 import { CaptionItem } from "@/types";
-import { getSession, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import getCurrentUser from "../actions/getCurrentUser";
 
 const getCaptions = async (user: string) => {
     try {
@@ -61,7 +59,7 @@ const Label: FC<LabelProps> = ({ params }) => {
             () => {
                 // 更新caption
                 const newCaptions = [...captions];
-                newCaptions[index] = captionItem;
+                newCaptions.splice(index, 1);
                 setCaptions(newCaptions);
             }
         )
