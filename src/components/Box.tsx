@@ -16,7 +16,8 @@ interface BoxProps {
     image_id: number,
     caption_en: string[],
     caption_zh: string[],
-    onSubmit: (captionItem: CaptionItem) => Promise<void>,
+    onSubmit: () => Promise<void>,
+    onCaptionChange: (caption_en: string[], caption_zh: string[]) => Promise<void>,
 }
 
 const Box: React.FC<BoxProps> = ({
@@ -29,15 +30,9 @@ const Box: React.FC<BoxProps> = ({
     caption_en,
     caption_zh,
     onSubmit,
+    onCaptionChange,
 }) => {
-    const [caption_en_value, setCaption_en_value] = useState(caption_en);
-    const [caption_zh_value, setCaption_zh_value] = useState(caption_zh);
-
     const [isFixed, setIsFixed] = useState(false);
-
-    const handleFixImage = () => {
-        setIsFixed(true);
-    };
 
     const imageStyle = isFixed
         ? { position: "fixed", top: "10", left: "10" }
@@ -103,11 +98,11 @@ const Box: React.FC<BoxProps> = ({
                         <textarea
                             className="p-4 border border-gray-300 rounded-md md:h-auto h-32 w-full"
                             key={index}
-                            value={caption_en_value[index]}
+                            value={item}
                             onChange={(event) => {
-                                const newCaption_en = [...caption_en_value];
+                                const newCaption_en = [...caption_en];
                                 newCaption_en[index] = (event.target as HTMLTextAreaElement).value;
-                                setCaption_en_value(newCaption_en);
+                                onCaptionChange(newCaption_en, caption_zh);
                             }} />
                     ))}
                 </div>
@@ -115,15 +110,14 @@ const Box: React.FC<BoxProps> = ({
                 <div className="flex-col w-full space-y-4">
                     <h1 className="text-xl font-bold">Chinese</h1>
                     {caption_zh.map((item, index) => (
-
                         <textarea
                             className="p-4 border border-gray-300 rounded-md md:h-auto h-32 w-full"
                             key={index}
-                            value={caption_zh_value[index]}
+                            value={item}
                             onChange={(event) => {
-                                const newCaption_zh = [...caption_zh_value];
+                                const newCaption_zh = [...caption_zh];
                                 newCaption_zh[index] = (event.target as HTMLTextAreaElement).value;
-                                setCaption_zh_value(newCaption_zh);
+                                onCaptionChange(caption_en, newCaption_zh);
                             }} />
                     ))}
                 </div>
@@ -165,15 +159,7 @@ const Box: React.FC<BoxProps> = ({
                     <p className="ml-4 text-lg">固定图片</p>
                 </div>
                 <button className=" bg-zinc-800 hover:bg-zinc-600 text-white rounded-md w-24 h-10"
-                    onClick={() => {
-                        onSubmit({
-                            title: title,
-                            image_id: image_id,
-                            image_src: image_src,
-                            caption_en: caption_en_value,
-                            caption_zh: caption_zh_value,
-                        });
-                    }}>
+                    onClick={onSubmit}>
                     提交
                 </button>
             </div>

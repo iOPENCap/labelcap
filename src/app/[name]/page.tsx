@@ -53,7 +53,6 @@ const Label: FC<LabelProps> = ({ params }) => {
     const user = params.name;
 
     const onSubmit = async (captionItem: CaptionItem, index: number) => {
-        console.log(captionItem);
         // 发送验证后的caption
         postCaptions(captionItem, user).then(
             () => {
@@ -61,8 +60,20 @@ const Label: FC<LabelProps> = ({ params }) => {
                 const newCaptions = [...captions];
                 newCaptions.splice(index, 1);
                 setCaptions(newCaptions);
+                console.log(newCaptions);
             }
+        ).catch(
+            (error) => { console.log(error) }
         )
+    }
+
+    const onCaptionChange = async (caption_en: string[], caption_zh: string[], index: number) => {
+        // 更新caption
+        const newCaptions = [...captions];
+        newCaptions[index].caption_en = caption_en;
+        newCaptions[index].caption_zh = caption_zh;
+        setCaptions(newCaptions);
+        console.log(newCaptions);
     }
 
     useEffect(() => {
@@ -86,7 +97,15 @@ const Label: FC<LabelProps> = ({ params }) => {
                     caption_en={item.caption_en}
                     caption_zh={item.caption_zh}
                     category={item.title.substring(0, item.title.lastIndexOf('_'))}
-                    onSubmit={(captionItem) => onSubmit(captionItem, index)} />
+                    onSubmit={() => onSubmit({
+                        title: item.title,
+                        image_id: item.image_id,
+                        image_src: item.image_src,
+                        caption_en: item.caption_en,
+                        caption_zh: item.caption_zh
+                    }, index)} 
+                    onCaptionChange={(caption_en, caption_zh) => onCaptionChange(caption_en, caption_zh, index)}
+                />
             ))}
         </div>
     )
