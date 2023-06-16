@@ -16,7 +16,8 @@ interface BoxProps {
     image_id: number,
     caption_en: string[],
     caption_zh: string[],
-    onSubmit: (captionItem: CaptionItem) => Promise<void>,
+    onSubmit: () => Promise<void>,
+    onCaptionChange: (caption_en: string[], caption_zh: string[]) => Promise<void>,
 }
 
 const Box: React.FC<BoxProps> = ({
@@ -29,20 +30,9 @@ const Box: React.FC<BoxProps> = ({
     caption_en,
     caption_zh,
     onSubmit,
+    onCaptionChange,
 }) => {
-    const [caption_en_value, setCaption_en_value] = useState(caption_en);
-    const [caption_zh_value, setCaption_zh_value] = useState(caption_zh);
-
     const [isFixed, setIsFixed] = useState(false);
-
-    const imageStyle = isFixed
-        ? {
-            position: "fixed",
-            top: "10px",
-            left: "10px",
-            boxShadow: "0px 7px 7px rgba(0, 0, 0, 0.3)"
-        }
-        : {};
 
     return (
         // TODO: 添加卡片关闭动画
@@ -51,9 +41,8 @@ const Box: React.FC<BoxProps> = ({
                 'w-full flex-col flex items-start rounded-md border p-4 hover:bg-slate-100 shadow-md hover:shadow-lg',
                 className)}>
             <div className="flex flex-col md:flex-row mt-6 ">
-                <Image className="hover:brightness-110 z-10 left-4 top-4" src={image_src}
-                    alt="image" width={300} height={300}
-                    style={imageStyle} />
+                <Image className={`hover:brightness-110 z-10 ${isFixed?'fixed top-24 left-8':''}`} src={image_src}
+                    alt="image" width={300} height={300}/>
                 {
                     isFixed && <div className="w-[300px] h-[300px]" />
                 }
@@ -104,11 +93,11 @@ const Box: React.FC<BoxProps> = ({
                         <textarea
                             className="p-4 border border-gray-300 rounded-md md:h-auto h-32 w-full"
                             key={index}
-                            value={caption_en_value[index]}
+                            value={item}
                             onChange={(event) => {
-                                const newCaption_en = [...caption_en_value];
+                                const newCaption_en = [...caption_en];
                                 newCaption_en[index] = (event.target as HTMLTextAreaElement).value;
-                                setCaption_en_value(newCaption_en);
+                                onCaptionChange(newCaption_en, caption_zh);
                             }} />
                     ))}
                 </div>
@@ -116,15 +105,14 @@ const Box: React.FC<BoxProps> = ({
                 <div className="flex-col w-full space-y-4">
                     <h1 className="text-xl font-bold">Chinese</h1>
                     {caption_zh.map((item, index) => (
-
                         <textarea
                             className="p-4 border border-gray-300 rounded-md md:h-auto h-32 w-full"
                             key={index}
-                            value={caption_zh_value[index]}
+                            value={item}
                             onChange={(event) => {
-                                const newCaption_zh = [...caption_zh_value];
+                                const newCaption_zh = [...caption_zh];
                                 newCaption_zh[index] = (event.target as HTMLTextAreaElement).value;
-                                setCaption_zh_value(newCaption_zh);
+                                onCaptionChange(caption_en, newCaption_zh);
                             }} />
                     ))}
                 </div>
@@ -166,15 +154,7 @@ const Box: React.FC<BoxProps> = ({
                     <p className="ml-4 text-lg">固定图片</p>
                 </div>
                 <button className=" bg-zinc-800 hover:bg-zinc-600 text-white rounded-md w-24 h-10"
-                    onClick={() => {
-                        onSubmit({
-                            title: title,
-                            image_id: image_id,
-                            image_src: image_src,
-                            caption_en: caption_en_value,
-                            caption_zh: caption_zh_value,
-                        });
-                    }}>
+                    onClick={onSubmit}>
                     提交
                 </button>
             </div>
