@@ -60,7 +60,6 @@ const Label: FC<LabelProps> = ({ params }) => {
                 const newCaptions = [...captions];
                 newCaptions.splice(index, 1);
                 setCaptions(newCaptions);
-                console.log(newCaptions);
             }
         ).catch(
             (error) => { console.log(error) }
@@ -73,18 +72,14 @@ const Label: FC<LabelProps> = ({ params }) => {
         newCaptions[index].caption_en = caption_en;
         newCaptions[index].caption_zh = caption_zh;
         setCaptions(newCaptions);
-        console.log(newCaptions);
     }
 
     useEffect(() => {
-        const fetchCaptions = async () => {
-            getCaptions(user).then(
-                (data) => {
-                    setCaptions(data);
-                }
-            );
-        };
-        fetchCaptions();
+        getCaptions(user).then(
+            (data) => {
+                setCaptions(data);
+            }
+        );
     }, []);
 
     return (
@@ -103,7 +98,7 @@ const Label: FC<LabelProps> = ({ params }) => {
                         image_src: item.image_src,
                         caption_en: item.caption_en,
                         caption_zh: item.caption_zh
-                    }, index)} 
+                    }, index)}
                     onCaptionChange={(caption_en, caption_zh) => onCaptionChange(caption_en, caption_zh, index)}
                 />
             ))}

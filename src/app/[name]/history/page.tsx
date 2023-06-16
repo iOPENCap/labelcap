@@ -52,16 +52,13 @@ interface HistoryProps {
 
 const Hisroty: FC<HistoryProps> = ({ params }) => {
     const [history, setHistory] = useState<CaptionItem[]>([]);
-    const { name } = params;
-    console.log(name);
+    const user = params.name;
 
     useEffect(() => {
         const fetchHistory = async () => {
-            getHistory(name).then(
+            getHistory(user).then(
                 (data) => {
                     setHistory(data);
-                    console.log(data);
-                    console.log(history);
                 }
             );
         };
@@ -70,14 +67,24 @@ const Hisroty: FC<HistoryProps> = ({ params }) => {
 
     const onSubmit = async (captionItem: CaptionItem, index: number) => {
         // 发送验证后的caption
-        postCaptions(captionItem, name).then(
+        postCaptions(captionItem, user).then(
             () => {
                 // 更新caption
                 const newCaptions = [...history];
-                newCaptions[index] = captionItem;
+                newCaptions.splice(index, 1);
                 setHistory(newCaptions);
             }
+        ).catch(
+            (error) => { console.log(error) }
         )
+    }
+
+    const onCaptionChange = async (caption_en: string[], caption_zh: string[], index: number) => {
+        // 更新caption
+        const newCaptions = [...history];
+        newCaptions[index].caption_en = caption_en;
+        newCaptions[index].caption_zh = caption_zh;
+        setHistory(newCaptions);
     }
 
     return (
@@ -97,7 +104,15 @@ const Hisroty: FC<HistoryProps> = ({ params }) => {
                                 caption_en={item.caption_en}
                                 caption_zh={item.caption_zh}
                                 category={item.title.substring(0, item.title.lastIndexOf('_'))}
-                                onSubmit={(captionItem) => onSubmit(captionItem, index)} />
+                                onSubmit={() => onSubmit({
+                                    title: item.title,
+                                    image_id: item.image_id,
+                                    image_src: item.image_src,
+                                    caption_en: item.caption_en,
+                                    caption_zh: item.caption_zh
+                                }, index)}
+                                onCaptionChange={(caption_en, caption_zh) => onCaptionChange(caption_en, caption_zh, index)}
+                            />
                         </AccordionContent>
                     </AccordionItem>
                 ))}

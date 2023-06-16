@@ -34,10 +34,6 @@ const Box: React.FC<BoxProps> = ({
 }) => {
     const [isFixed, setIsFixed] = useState(false);
 
-    const imageStyle = isFixed
-        ? { position: "fixed", top: "10", left: "10" }
-        : {};
-
     return (
         // TODO: 添加卡片关闭动画
         <div
@@ -45,9 +41,8 @@ const Box: React.FC<BoxProps> = ({
                 'w-full flex-col flex items-start rounded-md border p-4 hover:bg-slate-100 shadow-md hover:shadow-lg',
                 className)}>
             <div className="flex flex-col md:flex-row mt-6 ">
-                <Image className="hover:brightness-110 z-10" src={image_src}
-                    alt="image" width={300} height={300}
-                    style={imageStyle} />
+                <Image className={`hover:brightness-110 z-10 ${isFixed?'fixed top-24 left-8':''}`} src={image_src}
+                    alt="image" width={300} height={300}/>
                 {
                     isFixed && <div className="w-[300px] h-[300px]" />
                 }
