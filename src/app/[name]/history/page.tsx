@@ -36,7 +36,7 @@ const postCaptions = async (captionItem: CaptionItem, user: string) => {
             body: JSON.stringify({ captionItem: captionItem, user: user }),
         });
 
-        if (!await res.ok) {
+        if (res.ok) {
             console.log('error when posting caption');
             throw new Error(res.statusText);
         }
@@ -67,16 +67,7 @@ const Hisroty: FC<HistoryProps> = ({ params }) => {
 
     const onSubmit = async (captionItem: CaptionItem, index: number) => {
         // 发送验证后的caption
-        postCaptions(captionItem, user).then(
-            () => {
-                // 更新caption
-                const newCaptions = [...history];
-                newCaptions.splice(index, 1);
-                setHistory(newCaptions);
-            }
-        ).catch(
-            (error) => { console.log(error) }
-        )
+        postCaptions(captionItem, user);
     }
 
     const onCaptionChange = async (caption_en: string[], caption_zh: string[], index: number) => {
