@@ -1,8 +1,12 @@
 {
     "users":[
         {
-            "username":"username",
-            "password":"password"
+            "username":"zhou",
+            "password":"zhou@iopen"
+        },
+        {
+            "username":"gcx",
+            "password":"gcx@iopen"
         }
     ]
 }

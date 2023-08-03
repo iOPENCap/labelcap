@@ -16,6 +16,7 @@ interface BoxProps {
     image_id: number,
     caption_en: string[],
     caption_zh: string[],
+    raw_captions: string[],
     onSubmit: () => Promise<void>,
     onCaptionChange: (caption_en: string[], caption_zh: string[]) => Promise<void>,
 }
@@ -29,6 +30,7 @@ const Box: React.FC<BoxProps> = ({
     image_id,
     caption_en,
     caption_zh,
+    raw_captions,
     onSubmit,
     onCaptionChange,
 }) => {
@@ -41,15 +43,22 @@ const Box: React.FC<BoxProps> = ({
                 'w-full flex-col flex items-start rounded-md border p-4 hover:bg-slate-100 shadow-md hover:shadow-lg',
                 className)}>
             <div className="flex flex-col md:flex-row mt-6 ">
-                <Image className={`hover:brightness-110 z-10 ${isFixed?'fixed top-24 left-8':''}`} src={image_src}
-                    alt="image" width={300} height={300}/>
+                <Image className={`hover:brightness-110 z-10 ${isFixed ? 'fixed top-24 left-8' : ''}`} src={image_src}
+                    alt="image" width={300} height={300} />
                 {
                     isFixed && <div className="w-[300px] h-[300px]" />
                 }
                 <div className="pl-0 mt-4 md:mt-0 md:pl-8 flex flex-col">
-                    <h1 className="md:text-xl w-full text-md font-bold mb-2 break-words">{title}</h1>
+                    <h1 className="md:text-xl w-full text-lg font-bold mb-2 break-words">{title}</h1>
                     <p>Image ID: {image_id}</p>
                     <p>Category: {category}</p>
+
+                    <h2 className="text-md font-bold mt-4">Raw Caption</h2>
+                    <div>
+                        {raw_captions.map((caption, index) => (
+                            <p key={index}>{caption}</p>
+                        ))}
+                    </div>
                 </div>
             </div>
             <div className="flex flex-row mt-4 items-center">

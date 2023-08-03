@@ -1,3 +1,7 @@
+
+
+
+
 ### API声明
 
 **auth**
@@ -20,7 +24,7 @@ Request {
 }
 
 Response {
-    itemList:  CaptionItem[],
+	itemList:  CaptionItem[],
 }
 ```
 

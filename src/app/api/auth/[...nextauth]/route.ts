@@ -4,6 +4,7 @@ import fs from 'fs';
 import { User } from "@/types";
 
 export const authOptions: AuthOptions = {
+    // TODO: Custom Session Object
     providers: [
         CredentialsProvider({
             name: "Credentials",
