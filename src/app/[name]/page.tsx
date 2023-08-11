@@ -91,7 +91,7 @@ const Label: FC<LabelProps> = ({ params }) => {
                     image_id={item.image_id}
                     caption_en={item.caption_en}
                     caption_zh={item.caption_zh}
-                    raw_captions={item.raw_captions}
+                    // raw_captions={item.raw_captions}
                     category={item.title.substring(0, item.title.lastIndexOf('_'))}
                     onSubmit={() => onSubmit({
                         title: item.title,
@@ -99,7 +99,7 @@ const Label: FC<LabelProps> = ({ params }) => {
                         image_src: item.image_src,
                         caption_en: item.caption_en,
                         caption_zh: item.caption_zh,
-                        raw_captions: item.raw_captions,
+                        // raw_captions: item.raw_captions,
                     }, index)}
                     onCaptionChange={(caption_en, caption_zh) => onCaptionChange(caption_en, caption_zh, index)}
                 />

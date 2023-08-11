@@ -64,12 +64,12 @@ const Stat = () => {
                 </div>
 
                 <div className="w-1/4 bg-gray-100 mx-6 p-8 rounded-xl flex-col shadow-md">
-                    <p className="text-6xl font-bold">{statInfo ? (30800 - statInfo.labeled_num) : 'NaN'}</p>
+                    <p className="text-6xl font-bold">{statInfo ? (31500 - statInfo.labeled_num) : 'NaN'}</p>
                     <p className="mt-14 text-lg text-neutral-500">剩余标注数</p>
                 </div>
 
                 <div className="w-1/4 bg-gray-100 mx-6 p-8 rounded-xl flex-col shadow-md">
-                    <p className="text-6xl font-bold">{statInfo ? (30800 - statInfo.labeled_num) / statInfo.last_week_labeled_num : 'NaN'}</p>
+                    <p className="text-6xl font-bold">{statInfo ? (31500 - statInfo.labeled_num) / statInfo.last_week_labeled_num : 'NaN'}</p>
                     <p className="mt-14 text-lg text-neutral-500">剩余周数</p>
                 </div>
             </div>
@@ -93,8 +93,8 @@ const Stat = () => {
                                     <TableCell className="font-medium">{username}</TableCell>
                                     <TableCell>{stat.labeled_num}</TableCell>
                                     <TableCell>{stat.last_week_labeled_num}</TableCell>
-                                    <TableCell>{4400 - stat.labeled_num}</TableCell>
-                                    <TableCell className="text-right">{(4400 - stat.labeled_num) / stat.last_week_labeled_num}</TableCell>
+                                    <TableCell>{3938 - stat.labeled_num}</TableCell>
+                                    <TableCell className="text-right">{(3938 - stat.labeled_num) / stat.last_week_labeled_num}</TableCell>
                                 </TableRow>
                             )
                         )}

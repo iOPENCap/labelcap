@@ -5,7 +5,7 @@ export interface CaptionItem {
     image_id: number,
     caption_en: string[],
     caption_zh: string[],
-    raw_captions: string[],
+    // raw_captions: string[],
 }
 
 export interface User {

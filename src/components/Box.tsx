@@ -16,7 +16,7 @@ interface BoxProps {
     image_id: number,
     caption_en: string[],
     caption_zh: string[],
-    raw_captions: string[],
+    // raw_captions: string[],
     onSubmit: () => Promise<void>,
     onCaptionChange: (caption_en: string[], caption_zh: string[]) => Promise<void>,
 }
@@ -30,7 +30,7 @@ const Box: React.FC<BoxProps> = ({
     image_id,
     caption_en,
     caption_zh,
-    raw_captions,
+    // raw_captions,
     onSubmit,
     onCaptionChange,
 }) => {
@@ -53,12 +53,12 @@ const Box: React.FC<BoxProps> = ({
                     <p>Image ID: {image_id}</p>
                     <p>Category: {category}</p>
 
-                    <h2 className="text-md font-bold mt-4">Raw Caption</h2>
+                    {/* <h2 className="text-md font-bold mt-4">Raw Caption</h2>
                     <div>
                         {raw_captions.map((caption, index) => (
                             <p key={index}>{caption}</p>
                         ))}
-                    </div>
+                    </div> */}
                 </div>
             </div>
             <div className="flex flex-row mt-4 items-center">

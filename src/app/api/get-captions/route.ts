@@ -22,7 +22,7 @@ export async function POST(
                 image_src: `/data/server/NWPU-RESISC45/${category}/${caption['filename']}`,
                 caption_en: caption['caption_en'],
                 caption_zh: caption['caption_zh'],
-                raw_captions: caption['raw_captions'],
+                // raw_captions: caption['raw_captions'],
             })
         }
         return NextResponse.json({ itemList: itemList });
