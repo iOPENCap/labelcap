@@ -20,8 +20,8 @@ export async function POST(
                 title: caption['filename'],
                 image_id: caption['imgid'],
                 image_src: `/data/server/NWPU-RESISC45/${category}/${caption['filename']}`,
-                caption_en: caption['sentences'],
-                caption_zh: caption['sentences'],
+                caption_en: caption['caption_en'],
+                caption_zh: caption['caption_zh'],
                 raw_captions: caption['raw_captions'],
             })
         }
