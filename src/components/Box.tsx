@@ -40,7 +40,7 @@ const Box: React.FC<BoxProps> = ({
         // TODO: 添加卡片关闭动画
         <div
             className={twMerge(
-                'w-full flex-col flex items-start rounded-md border p-4 hover:bg-slate-100 shadow-md hover:shadow-lg',
+                'w-full bg-gray-100 flex-col flex items-start rounded-md border p-4 hover:bg-slate-100 shadow-md hover:shadow-lg',
                 className)}>
             <div className="flex flex-col md:flex-row mt-6 ">
                 <Image className={`hover:brightness-110 z-10 ${isFixed ? 'fixed top-24 left-8' : ''}`} src={image_src}
