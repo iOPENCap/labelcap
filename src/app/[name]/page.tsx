@@ -83,7 +83,7 @@ const Label: FC<LabelProps> = ({ params }) => {
     }, []);
 
     return (
-        <div className="flex flex-col min-h-screen w-full mt-8 space-y-8">
+        <div className="px-12 flex flex-col min-h-screen w-full mt-8 space-y-8">
             {captions.length > 0 && captions.slice(0, 4).map((item, index) => (
                 <Box key={index} title={item.title}
                     id={index}
