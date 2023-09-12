@@ -5,7 +5,7 @@ import Textarea from "@/components/Textarea";
 import { twMerge } from "tailwind-merge";
 import { useState } from "react";
 import { CaptionItem } from "@/types";
-import { Switch } from '@headlessui/react'
+import { Switch } from '@/components/ui/switch'
 
 interface BoxProps {
     id: number,
@@ -62,34 +62,7 @@ const Box: React.FC<BoxProps> = ({
                 </div>
             </div>
             <div className="flex flex-row mt-4 items-center">
-
-                <Switch
-                    checked={isFixed}
-                    onChange={setIsFixed}
-                    className={`
-                        ${isFixed ? 'bg-zinc-800' : 'bg-zinc-500'}
-                        relative 
-                        inline-flex 
-                        h-[28px] w-[74px]
-                        cursor-pointer 
-                        rounded-full 
-                        border-2 
-                        border-transparent 
-                        transition-colors 
-                        duration-200 
-                        ease-in-out 
-                        focus:outline-none 
-                        focus-visible:ring-2 
-                        focus-visible:ring-white 
-                        focus-visible:ring-opacity-75
-                    `}
-                >
-                    <span
-                        aria-hidden="true"
-                        className={`${isFixed ? 'translate-x-9' : 'translate-x-0'}
-                    pointer-events-none inline-block h-[24px] w-[34px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
-                    />
-                </Switch>
+                <Switch checked={isFixed} onCheckedChange={setIsFixed} />
 
                 <p className="ml-4 text-lg">固定图片</p>
             </div>
@@ -129,36 +102,7 @@ const Box: React.FC<BoxProps> = ({
 
             <div className="flex justify-between w-full mt-4 pr-4">
                 <div className="flex flex-row mt-4 items-center">
-
-                    <Switch
-                        checked={isFixed}
-                        onChange={setIsFixed}
-                        className={`
-                            ${isFixed ? 'bg-zinc-800' : 'bg-zinc-500'}
-                            relative 
-                            inline-flex 
-                            h-[28px] w-[74px]
-                            cursor-pointer 
-                            rounded-full 
-                            border-2 
-                            border-transparent 
-                            transition-colors 
-                            duration-200 
-                            ease-in-out 
-                            focus:outline-none 
-                            focus-visible:ring-2 
-                            focus-visible:ring-white 
-                            focus-visible:ring-opacity-75
-                        `}
-                    >
-                        <span
-                            aria-hidden="true"
-                            className={`
-                                ${isFixed ? 'translate-x-9' : 'translate-x-0'}
-                                pointer-events-none inline-block h-[24px] w-[34px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out
-                            `}
-                        />
-                    </Switch>
+                <Switch checked={isFixed} onCheckedChange={setIsFixed} />
 
                     <p className="ml-4 text-lg">固定图片</p>
                 </div>
