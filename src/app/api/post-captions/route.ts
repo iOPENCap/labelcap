@@ -14,6 +14,7 @@ export async function POST(
             'filename': captionItem.title,
             'imgid': captionItem.image_id,
             'sentences': captionItem.caption_en,
+            'legal': captionItem.isZh? 'zh': 'en',
         }
 
         if (!fs.existsSync(`public/data/${user}/captions/new`)) {

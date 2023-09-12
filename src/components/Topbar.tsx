@@ -33,10 +33,10 @@ const Topbar: React.FC<TopbarProps> = ({
                     {routes.map(route => (
                         <a key={route.href} href={route.href} className="text-gray-600 hover:text-gray-800">{route.name}</a>
                     ))}
-                    <button className="text-gray-600 hover:text-gray-800"
+                    {/* <button className="text-gray-600 hover:text-gray-800"
                         onClick={() => { signOut(); router.push(`/`) }}>
                         Logout
-                    </button>
+                    </button> */}
                 </div>
             </div>
             {children}

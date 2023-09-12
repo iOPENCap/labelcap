@@ -1,6 +1,7 @@
 "use client";
 
 import Box from "@/components/Box";
+import { Switch } from "@/components/ui/switch";
 import { CaptionItem } from "@/types";
 import { useEffect, useState } from "react";
 
@@ -50,6 +51,7 @@ interface LabelProps {
 
 const Label: FC<LabelProps> = ({ params }) => {
     const [captions, setCaptions] = useState<CaptionItem[]>([]);
+    const [isChinese, setIsChinese] = useState<boolean>(true);
     const user = params.name;
 
     const onSubmit = async (captionItem: CaptionItem, index: number) => {
@@ -84,6 +86,12 @@ const Label: FC<LabelProps> = ({ params }) => {
 
     return (
         <div className="px-12 flex flex-col min-h-screen w-full mt-8 space-y-8">
+            <div className="flex flex-row">
+                <p>英</p>
+                <Switch className="mx-2" checked={ isChinese } onCheckedChange={ setIsChinese }/>
+                <p>中</p>
+            </div>
+
             {captions.length > 0 && captions.slice(0, 4).map((item, index) => (
                 <Box key={index} title={item.title}
                     id={index}
@@ -91,6 +99,7 @@ const Label: FC<LabelProps> = ({ params }) => {
                     image_id={item.image_id}
                     caption_en={item.caption_en}
                     caption_zh={item.caption_zh}
+                    isChinese={isChinese}
                     // raw_captions={item.raw_captions}
                     category={item.title.substring(0, item.title.lastIndexOf('_'))}
                     onSubmit={() => onSubmit({
@@ -99,6 +108,7 @@ const Label: FC<LabelProps> = ({ params }) => {
                         image_src: item.image_src,
                         caption_en: item.caption_en,
                         caption_zh: item.caption_zh,
+                        isZh: isChinese,
                         // raw_captions: item.raw_captions,
                     }, index)}
                     onCaptionChange={(caption_en, caption_zh) => onCaptionChange(caption_en, caption_zh, index)}

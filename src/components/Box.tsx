@@ -16,6 +16,7 @@ interface BoxProps {
     image_id: number,
     caption_en: string[],
     caption_zh: string[],
+    isChinese: boolean,
     // raw_captions: string[],
     onSubmit: () => Promise<void>,
     onCaptionChange: (caption_en: string[], caption_zh: string[]) => Promise<void>,
@@ -30,6 +31,7 @@ const Box: React.FC<BoxProps> = ({
     image_id,
     caption_en,
     caption_zh,
+    isChinese,
     // raw_captions,
     onSubmit,
     onCaptionChange,
@@ -70,39 +72,45 @@ const Box: React.FC<BoxProps> = ({
             <div className="flex w-full md:flex-row md:space-x-8 mt-6
             flex-col space-y-8 md:space-y-0">
                 <div className="flex-col w-full space-y-4">
-                    <h1 className="text-xl font-bold">English</h1>
-                    {caption_en.map((item, index) => (
-                        <textarea
-                            className="p-4 border border-gray-300 rounded-md md:h-auto h-32 w-full"
-                            key={index}
-                            value={item}
-                            onChange={(event) => {
-                                const newCaption_en = [...caption_en];
-                                newCaption_en[index] = (event.target as HTMLTextAreaElement).value;
-                                onCaptionChange(newCaption_en, caption_zh);
-                            }} />
-                    ))}
-                </div>
-
-                <div className="flex-col w-full space-y-4">
-                    <h1 className="text-xl font-bold">Chinese</h1>
-                    {caption_zh.map((item, index) => (
-                        <textarea
-                            className="p-4 border border-gray-300 rounded-md md:h-auto h-32 w-full"
-                            key={index}
-                            value={item}
-                            onChange={(event) => {
-                                const newCaption_zh = [...caption_zh];
-                                newCaption_zh[index] = (event.target as HTMLTextAreaElement).value;
-                                onCaptionChange(caption_en, newCaption_zh);
-                            }} />
-                    ))}
+                    {isChinese ? (
+                        <>
+                            <h1 className="text-xl font-bold">Chinese</h1>
+                            {caption_zh.map((item, index) => (
+                                <textarea
+                                    className="p-4 border border-gray-300 rounded-md md:h-auto h-32 w-full"
+                                    key={index}
+                                    value={item}
+                                    onChange={(event) => {
+                                        const newCaption_zh = [...caption_zh];
+                                        newCaption_zh[index] = (event.target as HTMLTextAreaElement).value;
+                                        onCaptionChange(caption_en, newCaption_zh);
+                                    }}
+                                />
+                            ))}
+                        </>
+                    ) : (
+                        <>
+                            <h1 className="text-xl font-bold">English</h1>
+                            {caption_en.map((item, index) => (
+                                <textarea
+                                    className="p-4 border border-gray-300 rounded-md md:h-auto h-32 w-full"
+                                    key={index}
+                                    value={item}
+                                    onChange={(event) => {
+                                        const newCaption_en = [...caption_en];
+                                        newCaption_en[index] = (event.target as HTMLTextAreaElement).value;
+                                        onCaptionChange(newCaption_en, caption_zh);
+                                    }}
+                                />
+                            ))}
+                        </>
+                    )}
                 </div>
             </div>
 
             <div className="flex justify-between w-full mt-4 pr-4">
                 <div className="flex flex-row mt-4 items-center">
-                <Switch checked={isFixed} onCheckedChange={setIsFixed} />
+                    <Switch checked={isFixed} onCheckedChange={setIsFixed} />
 
                     <p className="ml-4 text-lg">固定图片</p>
                 </div>
