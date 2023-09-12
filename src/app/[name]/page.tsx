@@ -83,7 +83,7 @@ const Label: FC<LabelProps> = ({ params }) => {
     }, []);
 
     return (
-        <div className="flex flex-col min-h-screen w-full mt-8 space-y-8">
+        <div className="px-12 flex flex-col min-h-screen w-full mt-8 space-y-8">
             {captions.length > 0 && captions.slice(0, 4).map((item, index) => (
                 <Box key={index} title={item.title}
                     id={index}
@@ -91,13 +91,15 @@ const Label: FC<LabelProps> = ({ params }) => {
                     image_id={item.image_id}
                     caption_en={item.caption_en}
                     caption_zh={item.caption_zh}
+                    // raw_captions={item.raw_captions}
                     category={item.title.substring(0, item.title.lastIndexOf('_'))}
                     onSubmit={() => onSubmit({
                         title: item.title,
                         image_id: item.image_id,
                         image_src: item.image_src,
                         caption_en: item.caption_en,
-                        caption_zh: item.caption_zh
+                        caption_zh: item.caption_zh,
+                        // raw_captions: item.raw_captions,
                     }, index)}
                     onCaptionChange={(caption_en, caption_zh) => onCaptionChange(caption_en, caption_zh, index)}
                 />

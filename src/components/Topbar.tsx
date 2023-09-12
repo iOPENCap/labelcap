@@ -26,8 +26,8 @@ const Topbar: React.FC<TopbarProps> = ({
     const router = useRouter();
 
     return (
-        <div className="top-0 w-full bg-gray-100 p-4 z-50">
-            <div className="flex items-center justify-between">
+        <div className="top-0 w-full bg-gray-200 py-4 z-50">
+            <div className="flex items-center justify-between px-4">
                 <h1 className="text-2xl font-bold">Label Captions</h1>
                 <div className="flex space-x-8">
                     {routes.map(route => (
