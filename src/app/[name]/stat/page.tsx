@@ -12,6 +12,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
+import { Label } from "@radix-ui/react-label";
 
 
 /**
@@ -41,6 +42,7 @@ const getStat = async () => {
 
 const Stat = () => {
     const [statInfo, setStatInfo] = useState<StatInfo>();
+    const [remainDays, setRemainDays] = useState<number>(60);
 
     useEffect(() => {
         getStat().then(
@@ -52,25 +54,28 @@ const Stat = () => {
 
     return (
         <div className="py-12 min-h-screen">
-            <div className="px-12 h-56 flex justify-between">
-                <div className="w-1/4 bg-gray-100 mx-6 p-8 rounded-xl flex-col shadow-md">
+            <div className="px-12 flex justify-between space-y-4 flex-col md:flex-row md:space-y-0">
+                <div className="md:w-1/4 bg-gray-100 md:mx-6 p-8 rounded-xl flex-col shadow-md">
                     <p className="text-6xl font-bold">{statInfo ? statInfo.labeled_num : 'NaN'}</p>
                     <p className="mt-14 text-lg text-neutral-500">已检验标注数</p>
                 </div>
 
-                <div className="w-1/4 bg-gray-100 mx-6 p-8 rounded-xl flex-col shadow-md">
+                <div className="md:w-1/4 bg-gray-100 md:mx-6 p-8 rounded-xl flex-col shadow-md">
                     <p className="text-6xl font-bold">{statInfo ? statInfo.last_week_labeled_num : 'NaN'}</p>
                     <p className="mt-14 text-lg text-neutral-500">近一周检验标注数</p>
                 </div>
 
-                <div className="w-1/4 bg-gray-100 mx-6 p-8 rounded-xl flex-col shadow-md">
+                <div className="md:w-1/4 bg-gray-100 md:mx-6 p-8 rounded-xl flex-col shadow-md">
                     <p className="text-6xl font-bold">{statInfo ? (31500 - statInfo.labeled_num) : 'NaN'}</p>
                     <p className="mt-14 text-lg text-neutral-500">剩余标注数</p>
                 </div>
 
-                <div className="w-1/4 bg-gray-100 mx-6 p-8 rounded-xl flex-col shadow-md">
-                    <p className="text-6xl font-bold">{statInfo ? (31500 - statInfo.labeled_num) / statInfo.last_week_labeled_num : 'NaN'}</p>
-                    <p className="mt-14 text-lg text-neutral-500">剩余周数</p>
+                <div className="md:w-1/4 bg-gray-100 md:mx-6 p-8 rounded-xl flex-col shadow-md">
+                    <p className="text-6xl font-bold">
+                        {statInfo ? Math.ceil(statInfo.labeled_num) : 'NaN'}/
+                        {statInfo ? Math.ceil((31500 - statInfo.labeled_num) / remainDays / 7) : 'NaN'}
+                    </p>
+                    <p className="mt-14 text-lg text-neutral-500">本周任务完成情况</p>
                 </div>
             </div>
 
@@ -83,7 +88,7 @@ const Stat = () => {
                             <TableHead>总标注</TableHead>
                             <TableHead>上周标注</TableHead>
                             <TableHead>剩余标注</TableHead>
-                            <TableHead className="text-right">剩余周数</TableHead>
+                            <TableHead className="text-right">本周任务完成情况</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -94,7 +99,10 @@ const Stat = () => {
                                     <TableCell>{stat.labeled_num}</TableCell>
                                     <TableCell>{stat.last_week_labeled_num}</TableCell>
                                     <TableCell>{3938 - stat.labeled_num}</TableCell>
-                                    <TableCell className="text-right">{(3938 - stat.labeled_num) / stat.last_week_labeled_num}</TableCell>
+                                    <TableCell className="text-right">
+                                        {stat.labeled_num}/
+                                        {Math.ceil((31500 - statInfo.labeled_num) / remainDays / 7 / Object.keys(statInfo.user_stat).length)}
+                                    </TableCell>
                                 </TableRow>
                             )
                         )}
@@ -102,9 +110,13 @@ const Stat = () => {
                     </TableBody>
                 </Table>
             </div>
-            <div>
 
+            <p className="px-12 text-2xl mt-20 font-bold">Settings</p>
+            <div className="bg-gray-100 p-12 mt-8 ">
+                <Label>计划剩余时间（天）：</Label>
+                <input type="number" className='form-input rounded-lg text-sm w-24' value={remainDays} onChange={(e) => setRemainDays(parseInt(e.target.value))}/>
             </div>
+
         </div>
     )
 }
