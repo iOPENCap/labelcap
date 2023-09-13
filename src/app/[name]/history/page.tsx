@@ -78,6 +78,8 @@ const Hisroty: FC<HistoryProps> = ({ params }) => {
         setHistory(newCaptions);
     }
 
+    console.log(history);
+
     return (
         <div className="min-h-screen p-12">
             <Accordion type="single" collapsible>
@@ -94,7 +96,7 @@ const Hisroty: FC<HistoryProps> = ({ params }) => {
                                 image_id={item.image_id}
                                 caption_en={item.caption_en}
                                 caption_zh={item.caption_zh}
-                                raw_captions={item.raw_captions}
+                                isChinese={item.isZh}
                                 category={item.title.substring(0, item.title.lastIndexOf('_'))}
                                 onSubmit={() => onSubmit({
                                     title: item.title,
@@ -102,7 +104,7 @@ const Hisroty: FC<HistoryProps> = ({ params }) => {
                                     image_src: item.image_src,
                                     caption_en: item.caption_en,
                                     caption_zh: item.caption_zh,
-                                    raw_captions: item.raw_captions,
+                                    isZh: item.isZh,
                                 }, index)}
                                 onCaptionChange={(caption_en, caption_zh) => onCaptionChange(caption_en, caption_zh, index)}
                             />

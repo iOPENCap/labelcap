@@ -16,7 +16,7 @@ interface BoxProps {
     image_id: number,
     caption_en: string[],
     caption_zh: string[],
-    isChinese: boolean,
+    isChinese: boolean | null,
     // raw_captions: string[],
     onSubmit: () => Promise<void>,
     onCaptionChange: (caption_en: string[], caption_zh: string[]) => Promise<void>,

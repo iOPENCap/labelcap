@@ -95,7 +95,7 @@ const Stat = () => {
                 <div className="md:w-1/4 bg-gray-100 md:mx-6 p-8 rounded-xl flex-col shadow-md">
                     <p className="text-6xl font-bold">
                         {statInfo ? Math.ceil(statInfo.labeled_num) : 'NaN'}/
-                        {statInfo ? Math.ceil((31500 - statInfo.labeled_num) / (remainDays as number) / 7) : 'NaN'}
+                        {statInfo ? Math.ceil((31500 - statInfo.labeled_num) / (remainDays as number) * 7) : 'NaN'}
                     </p>
                     <p className="mt-14 text-lg text-neutral-500">本周任务完成情况</p>
                 </div>
@@ -120,10 +120,10 @@ const Stat = () => {
                                     <TableCell className="font-medium">{username}</TableCell>
                                     <TableCell>{stat.labeled_num}</TableCell>
                                     <TableCell>{stat.last_week_labeled_num}</TableCell>
-                                    <TableCell>{3938 - stat.labeled_num}</TableCell>
+                                    <TableCell>{4500 - stat.labeled_num}</TableCell>
                                     <TableCell className="text-right">
                                         {stat.labeled_num}/
-                                        {Math.ceil((31500 - statInfo.labeled_num) / (remainDays as number) / 7 / Object.keys(statInfo.user_stat).length)}
+                                        {Math.ceil((31500 - statInfo.labeled_num) / (remainDays as number) * 7 / Object.keys(statInfo.user_stat).length)}
                                     </TableCell>
                                 </TableRow>
                             )

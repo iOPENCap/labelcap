@@ -13,7 +13,9 @@ export async function POST(
         const newCaption = {
             'filename': captionItem.title,
             'imgid': captionItem.image_id,
-            'sentences': captionItem.caption_en,
+            'caption_en': captionItem.caption_en,
+            'caption_zh': captionItem.caption_zh,
+            'image_src': captionItem.image_src,
             'legal': captionItem.isZh? 'zh': 'en',
         }
 
