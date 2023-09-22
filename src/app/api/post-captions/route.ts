@@ -24,11 +24,8 @@ export async function POST(
         }
         fs.writeFileSync(`public/data/${user}/captions/new/${captionItem.title}.json`, JSON.stringify(newCaption));
 
-        // 在raw中删除该caption
-        const raw = fs.readFileSync(`public/data/${user}/captions/raw.json`, 'utf8')
-        const raw_captions = await JSON.parse(raw);
-        const new_raw_captions = raw_captions.filter((caption: any) => caption['filename'] !== captionItem.title);
-        fs.writeFileSync(`public/data/${user}/captions/raw.json`, JSON.stringify(new_raw_captions));
+        // 在origin中删除该caption
+        fs.unlinkSync(`public/data/${user}/captions/origin/${captionItem.title}.json`);
 
     } catch (err: any) {
         console.log(err);

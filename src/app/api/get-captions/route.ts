@@ -9,18 +9,16 @@ export async function POST(
     try {
         const { user } = await req.json();
 
-        // Get the first 10 captions from `public/data/${user}/captions/origin`
+        // Get the first 20 captions from `public/data/${user}/captions/origin`
         const captionsDir = `public/data/${user}/captions/origin`;
-        const topCaptions = fs.readdirSync(captionsDir).slice(0, 10);
+        const topCaptions = fs.readdirSync(captionsDir).slice(0, 20);
 
-        console.log(topCaptions);
         // Read the captions
         const data: string[] = [];
         for (const caption of topCaptions) {
             data.push(fs.readFileSync(`${captionsDir}/${caption}`, 'utf8'));
         }
         const captions = await JSON.parse(`[${data}]`);
-        // console.log(captions);
 
         const itemList: CaptionItem[] = [];
         for (const caption of captions) {

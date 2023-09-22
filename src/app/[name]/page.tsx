@@ -94,6 +94,7 @@ const Label: FC<LabelProps> = ({ params }) => {
 
             {captions.length > 0 && captions.slice(0, 4).map((item, index) => (
                 <Box key={index} title={item.title}
+                    user = {user}
                     id={index}
                     image_src={item.image_src}
                     image_id={item.image_id}

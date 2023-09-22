@@ -8,6 +8,7 @@ import { CaptionItem } from "@/types";
 import { Switch } from '@/components/ui/switch'
 
 interface BoxProps {
+    user: string,
     id: number,
     className?: string,
     image_src: string,
@@ -23,6 +24,7 @@ interface BoxProps {
 }
 
 const Box: React.FC<BoxProps> = ({
+    user,
     id,
     className,
     image_src,
@@ -54,6 +56,11 @@ const Box: React.FC<BoxProps> = ({
                     <h1 className="md:text-xl w-full text-lg font-bold mb-2 break-words">{title}</h1>
                     <p>Image ID: {image_id}</p>
                     <p>Category: {category}</p>
+                    <p><br/></p>
+                    <p>Source: public/data/{user}/captions/orgin/{title}.json</p>
+                    <p>Target &#40;will be&#41;: public/data/{user}/captions/new/{title}.json</p>
+                    {/* How to inter '()' in <p>? */}
+
 
                     {/* <h2 className="text-md font-bold mt-4">Raw Caption</h2>
                     <div>
