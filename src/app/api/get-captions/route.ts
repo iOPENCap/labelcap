@@ -9,8 +9,18 @@ export async function POST(
     try {
         const { user } = await req.json();
 
-        const data = fs.readFileSync(`public/data/${user}/captions/raw.json`, 'utf8')
-        const captions = await JSON.parse(data);
+        // Get the first 10 captions from `public/data/${user}/captions/origin`
+        const captionsDir = `public/data/${user}/captions/origin`;
+        const topCaptions = fs.readdirSync(captionsDir).slice(0, 10);
+
+        console.log(topCaptions);
+        // Read the captions
+        const data: string[] = [];
+        for (const caption of topCaptions) {
+            data.push(fs.readFileSync(`${captionsDir}/${caption}`, 'utf8'));
+        }
+        const captions = await JSON.parse(`[${data}]`);
+        // console.log(captions);
 
         const itemList: CaptionItem[] = [];
         for (const caption of captions) {
@@ -22,6 +32,7 @@ export async function POST(
                 image_src: `/data/server/NWPU-RESISC45/${category}/${caption['filename']}`,
                 caption_en: caption['caption_en'],
                 caption_zh: caption['caption_zh'],
+                isZh: null,
                 // raw_captions: caption['raw_captions'],
             })
         }
