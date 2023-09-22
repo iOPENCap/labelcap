@@ -35,7 +35,7 @@ const postCaptions = async (captionItem: CaptionItem, user: string) => {
         });
 
         if (!res.ok) {
-            console.log('error when posting caption');
+            console.log('error when posting captions');
             throw new Error(res.statusText);
         }
 

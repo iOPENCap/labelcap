@@ -2,6 +2,7 @@
 
 import { FC, SetStateAction, useEffect, useState, Dispatch } from "react";
 import { StatInfo } from '@/types';
+import { Loader2 } from 'lucide-react';
 
 import {
     Table,
@@ -66,6 +67,31 @@ const Stat = () => {
     const [statInfo, setStatInfo] = useState<StatInfo>();
     const [remainDays, setRemainDays] = useRemainDays();
 
+    const exportPath = 'public/data/server/exports';
+    const [isExporting, setIsExporting] = useState(false);
+    const onExport = async (exportPath: string) => {
+        setIsExporting(true);
+        try {
+            const res: Response = await fetch(`/api/export-captions`, {
+                method: 'POST',
+                headers: new Headers({ 'Content-Type': 'application/json' }),
+                body: JSON.stringify({ exportPath: exportPath }),
+            })
+
+            if (!res.ok) {
+                console.log('error when exporting captions');
+                throw new Error(res.statusText);
+            }
+
+            console.log('okok')
+
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setIsExporting(false);
+        }
+    }
+
     useEffect(() => {
         getStat().then(
             (data) => {
@@ -99,6 +125,19 @@ const Stat = () => {
                     </p>
                     <p className="mt-14 text-lg text-neutral-500">本周任务完成情况</p>
                 </div>
+            </div>
+
+            <div className="px-20 mt-12">
+                <button className=" bg-zinc-800 hover:bg-zinc-600 text-white rounded-md w-24 h-10
+                disabled:opacity-50 disabled:pointer-events-none"
+                    onClick={() => { onExport(exportPath) }}
+                    disabled={isExporting}>
+                    导出
+                </button>
+                <p className="mt-2 text-gray-400">
+                    导出所有检验过的数据集，到 {exportPath}。 <br />
+                </p>
+                {isExporting && <Loader2 className='mt-4 h-10 w-10 animate-spin' />}
             </div>
 
             <p className="px-12 text-2xl mt-20 font-bold">Users</p>

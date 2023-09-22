@@ -54,20 +54,11 @@ const Box: React.FC<BoxProps> = ({
                 }
                 <div className="pl-0 mt-4 md:mt-0 md:pl-8 flex flex-col">
                     <h1 className="md:text-xl w-full text-lg font-bold mb-2 break-words">{title}</h1>
-                    <p>Image ID: {image_id}</p>
-                    <p>Category: {category}</p>
+                    <p><span className="text-neutral-400">Image ID: </span>{image_id}</p>
+                    <p><span className="text-neutral-400">Category: </span>{category}</p>
                     <p><br/></p>
-                    <p>Source: public/data/{user}/captions/orgin/{title}.json</p>
-                    <p>Target &#40;will be&#41;: public/data/{user}/captions/new/{title}.json</p>
-                    {/* How to inter '()' in <p>? */}
-
-
-                    {/* <h2 className="text-md font-bold mt-4">Raw Caption</h2>
-                    <div>
-                        {raw_captions.map((caption, index) => (
-                            <p key={index}>{caption}</p>
-                        ))}
-                    </div> */}
+                    <p><span className="text-neutral-400">Source: </span>public/data/{user}/captions/orgin/{title}.json</p>
+                    <p><span className="text-neutral-400">Target &#40;will be&#41;: </span>public/data/{user}/captions/new/{title}.json</p>
                 </div>
             </div>
             <div className="flex flex-row mt-4 items-center">
@@ -121,7 +112,7 @@ const Box: React.FC<BoxProps> = ({
 
                     <p className="ml-4 text-lg">固定图片</p>
                 </div>
-                <button className=" bg-zinc-800 hover:bg-zinc-600 text-white rounded-md w-24 h-10"
+                <button className="bg-zinc-800 hover:bg-zinc-600 text-white rounded-md w-24 h-10"
                     onClick={onSubmit}>
                     提交
                 </button>

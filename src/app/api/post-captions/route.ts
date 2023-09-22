@@ -27,6 +27,8 @@ export async function POST(
         // 在origin中删除该caption
         fs.unlinkSync(`public/data/${user}/captions/origin/${captionItem.title}.json`);
 
+        return new NextResponse('OK', { status: 200 });
+
     } catch (err: any) {
         console.log(err);
         return new NextResponse('Internal Error', { status: 500 });
