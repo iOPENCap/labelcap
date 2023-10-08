@@ -11,11 +11,11 @@ export async function POST(
         
         // 将新caption写入到new文件夹中
         const newCaption = {
-            'filename': captionItem.title,
             'imgid': captionItem.image_id,
             'caption_en': captionItem.caption_en,
             'caption_zh': captionItem.caption_zh,
-            'image_src': captionItem.image_src,
+            'filepath': captionItem.image_src,
+            'title': captionItem.title,
             'legal': captionItem.isZh? 'zh': 'en',
         }
 

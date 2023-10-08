@@ -101,7 +101,6 @@ const Label: FC<LabelProps> = ({ params }) => {
                     caption_en={item.caption_en}
                     caption_zh={item.caption_zh}
                     isChinese={isChinese}
-                    // raw_captions={item.raw_captions}
                     category={item.title.substring(0, item.title.lastIndexOf('_'))}
                     onSubmit={() => onSubmit({
                         title: item.title,

@@ -22,16 +22,13 @@ export async function POST(
 
         const itemList: CaptionItem[] = [];
         for (const caption of captions) {
-            const category = caption['filename'].substring(0, caption['filename'].lastIndexOf('_'));
-
             itemList.push({
-                title: caption['filename'],
+                title: caption['title'],
                 image_id: caption['imgid'],
-                image_src: `/data/server/NWPU-RESISC45/${category}/${caption['filename']}`,
+                image_src: caption['filepath'],
                 caption_en: caption['caption_en'],
                 caption_zh: caption['caption_zh'],
                 isZh: null,
-                // raw_captions: caption['raw_captions'],
             })
         }
         return NextResponse.json({ itemList: itemList });

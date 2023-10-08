@@ -11,7 +11,7 @@ interface BoxProps {
     user: string,
     id: number,
     className?: string,
-    image_src: string,
+    image_src: string[],
     title: string,
     category: string,
     image_id: number,
@@ -44,10 +44,11 @@ const Box: React.FC<BoxProps> = ({
         // TODO: 添加卡片关闭动画
         <div
             className={twMerge(
-                'w-full bg-gray-100 flex-col flex items-start rounded-md border p-4 hover:bg-slate-100 shadow-md hover:shadow-lg',
+                'w-full bg-gray-100 flex-col flex items-start rounded-md border p-4 shadow-md',
                 className)}>
             <div className="flex flex-col md:flex-row mt-6 ">
-                <Image className={`hover:brightness-110 z-10 ${isFixed ? 'fixed top-24 left-8' : ''}`} src={image_src}
+                <Image className={`hover:brightness-110 z-10 ${isFixed ? 'fixed top-24 left-8' : ''}`}
+                    src={ image_src[0] }
                     alt="image" width={300} height={300} />
                 {
                     isFixed && <div className="w-[300px] h-[300px]" />
@@ -57,8 +58,8 @@ const Box: React.FC<BoxProps> = ({
                     <p><span className="text-neutral-400">Image ID: </span>{image_id}</p>
                     <p><span className="text-neutral-400">Category: </span>{category}</p>
                     <p><br/></p>
-                    <p><span className="text-neutral-400">Source: </span>public/data/{user}/captions/orgin/{title}.json</p>
-                    <p><span className="text-neutral-400">Target &#40;will be&#41;: </span>public/data/{user}/captions/new/{title}.json</p>
+                    <p><span className="text-neutral-400">Source: </span>public/data/{user}/ captions/orgin/{title}.json</p>
+                    <p><span className="text-neutral-400">Target &#40;will be&#41;: </span>public/data/{user}/ captions/new/{title}.json</p>
                 </div>
             </div>
             <div className="flex flex-row mt-4 items-center">
