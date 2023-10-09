@@ -41,28 +41,34 @@ const Box: React.FC<BoxProps> = ({
     const [isFixed, setIsFixed] = useState(false);
 
     return (
-        // TODO: 添加卡片关闭动画
         <div
             className={twMerge(
-                'w-full bg-gray-100 flex-col flex items-start rounded-md border p-4 shadow-md',
+                'w-full bg-gray-100 pl-0 md:pl-8 flex-col flex items-start rounded-md border p-4 shadow-md',
                 className)}>
             <div className="flex flex-col md:flex-row mt-6 ">
-                <Image className={`hover:brightness-110 z-10 ${isFixed ? 'fixed top-24 left-8' : ''}`}
-                    src={ image_src[0] }
-                    alt="image" width={300} height={300} />
-                {
-                    isFixed && <div className="w-[300px] h-[300px]" />
-                }
-                <div className="pl-0 mt-4 md:mt-0 md:pl-8 flex flex-col">
+                <div className="mt-4 md:mt-0 flex flex-col">
                     <h1 className="md:text-xl w-full text-lg font-bold mb-2 break-words">{title}</h1>
-                    <p><span className="text-neutral-400">Image ID: </span>{image_id}</p>
-                    <p><span className="text-neutral-400">Category: </span>{category}</p>
-                    <p><br/></p>
-                    <p><span className="text-neutral-400">Source: </span>public/data/{user}/ captions/orgin/{title}.json</p>
-                    <p><span className="text-neutral-400">Target &#40;will be&#41;: </span>public/data/{user}/ captions/new/{title}.json</p>
+                    <p><span className="text-neutral-400">Image ID<br /></span>{image_id}</p>
+                    <p><span className="text-neutral-400">Category<br /></span>{category}</p>
+                    <p><br /></p>
+                    <p><span className="text-neutral-400">Source<br /></span>public/data/{user}/ captions/orgin/{title}.json</p>
+                    <p><span className="text-neutral-400">Target &#40;will be&#41;<br /></span>public/data/{user}/ captions/new/{title}.json</p>
+                </div>
+
+                {/* 若图片个数小于3，则一行排完；否则按3个为一行排列 */}
+                <div className={`ml-0 md:ml-4 grid grid-cols-${image_src.length >= 3 ? '3' : image_src.length} gap-4 ${isFixed ? 'fixed top-24 right-8' : ''}`}>
+                    {image_src.map((item, index) => (
+                        <Image
+                            className='hover:brightness-110 z-10'
+                            src={item}
+                            alt="image"
+                            width={300}
+                            height={300}
+                        />
+                    ))}
                 </div>
             </div>
-            <div className="flex flex-row mt-4 items-center">
+            <div className="flex flex-row mt-8 items-center">
                 <Switch checked={isFixed} onCheckedChange={setIsFixed} />
 
                 <p className="ml-4 text-lg">固定图片</p>
