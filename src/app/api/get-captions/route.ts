@@ -26,8 +26,8 @@ export async function POST(
                 title: caption['title'],
                 image_id: caption['imgid'],
                 image_src: caption['filepath'],
-                caption_en: caption['caption_en'],
-                caption_zh: caption['caption_zh'],
+                captions_en: caption['caption_en'],
+                captions_zh: caption['caption_zh'],
                 isZh: null,
             })
         }

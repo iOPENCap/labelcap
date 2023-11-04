@@ -15,12 +15,12 @@ interface BoxProps {
     title: string,
     category: string,
     image_id: number,
-    caption_en: string[],
-    caption_zh: string[],
+    captions_en: string[],
+    captions_zh: string[],
     isChinese: boolean | null,
     // raw_captions: string[],
     onSubmit: () => Promise<void>,
-    onCaptionChange: (caption_en: string[], caption_zh: string[]) => Promise<void>,
+    onCaptionChange: (captions_en: string[], captions_zh: string[]) => Promise<void>,
 }
 
 const Box: React.FC<BoxProps> = ({
@@ -31,10 +31,9 @@ const Box: React.FC<BoxProps> = ({
     title,
     category,
     image_id,
-    caption_en,
-    caption_zh,
+    captions_en,
+    captions_zh,
     isChinese,
-    // raw_captions,
     onSubmit,
     onCaptionChange,
 }) => {
@@ -78,35 +77,45 @@ const Box: React.FC<BoxProps> = ({
             flex-col space-y-8 md:space-y-0">
                 <div className="flex-col w-full space-y-4">
                     {isChinese ? (
+                        /* 如果 toggle 切换为中文，则用 textare 显示中文，
+                        并在上面用 text 显示英文以辅助（如有） */
                         <>
                             <h1 className="text-xl font-bold">Chinese</h1>
-                            {caption_zh.map((item, index) => (
-                                <textarea
-                                    className="p-4 border border-gray-300 rounded-md md:h-auto h-32 w-full"
-                                    key={index}
-                                    value={item}
-                                    onChange={(event) => {
-                                        const newCaption_zh = [...caption_zh];
-                                        newCaption_zh[index] = (event.target as HTMLTextAreaElement).value;
-                                        onCaptionChange(caption_en, newCaption_zh);
-                                    }}
-                                />
+                            {captions_zh.map((item, index) => (
+                                <div>
+                                    <p className="p-2 text-neutral-400">{captions_en[index]}</p>
+                                    <textarea
+                                        className="p-4 border border-gray-300 rounded-md md:h-auto h-32 w-full"
+                                        key={index}
+                                        value={item}
+                                        onChange={(event) => {
+                                            const newcaptions_zh = [...captions_zh];
+                                            newcaptions_zh[index] = (event.target as HTMLTextAreaElement).value;
+                                            onCaptionChange(captions_en, newcaptions_zh);
+                                        }}
+                                    />
+                                </div>
                             ))}
                         </>
                     ) : (
+                        /* 如果 toggle 切换为英文，则用 textare 显示英文，
+                        并在上面用 text 显示中文以辅助（如有） */
                         <>
                             <h1 className="text-xl font-bold">English</h1>
-                            {caption_en.map((item, index) => (
-                                <textarea
-                                    className="p-4 border border-gray-300 rounded-md md:h-auto h-32 w-full"
-                                    key={index}
-                                    value={item}
-                                    onChange={(event) => {
-                                        const newCaption_en = [...caption_en];
-                                        newCaption_en[index] = (event.target as HTMLTextAreaElement).value;
-                                        onCaptionChange(newCaption_en, caption_zh);
-                                    }}
-                                />
+                                {captions_en.map((item, index) => (
+                                    <div>
+                                        <p className="p-2 text-neutral-400">{captions_zh[index]}</p>
+                                        <textarea
+                                            className="p-4 border border-gray-300 rounded-md md:h-auto h-32 w-full"
+                                            key={index}
+                                            value={item}
+                                            onChange={(event) => {
+                                                const newcaptions_en = [...captions_en];
+                                                newcaptions_en[index] = (event.target as HTMLTextAreaElement).value;
+                                                onCaptionChange(newcaptions_en, captions_zh);
+                                            }}
+                                        />
+                                    </div>
                             ))}
                         </>
                     )}

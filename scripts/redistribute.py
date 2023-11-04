@@ -1,6 +1,32 @@
 # 收集所有用户未标注的数据集，
 # 然后重新随机平均分发。
 
+# labelcap 可以识别的数据集格式为（2023-10-08）：
+'''
+[
+	{
+		"title": "Title",
+		"filepath": [
+			"Path/Of/Image1.jpg", 
+			"/data/server/NWPU-RESISC45/airplane/airplane_001.jpg",
+			...
+		],
+		"imgid": 888,
+		"caption_zh": [
+			"中文描述1",
+			"中文描述2",
+			...
+		],
+		"caption_en": [
+			"English caption 1",
+			"English caption 2",
+			...
+		]
+	},
+	...
+]
+'''
+
 import os
 import json
 

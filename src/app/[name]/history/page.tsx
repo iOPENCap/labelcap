@@ -73,8 +73,8 @@ const Hisroty: FC<HistoryProps> = ({ params }) => {
     const onCaptionChange = async (caption_en: string[], caption_zh: string[], index: number) => {
         // 更新caption
         const newCaptions = [...history];
-        newCaptions[index].caption_en = caption_en;
-        newCaptions[index].caption_zh = caption_zh;
+        newCaptions[index].captions_en = caption_en;
+        newCaptions[index].captions_zh = caption_zh;
         setHistory(newCaptions);
     }
 
@@ -91,19 +91,20 @@ const Hisroty: FC<HistoryProps> = ({ params }) => {
                         </AccordionTrigger>
                         <AccordionContent key={index}>
                             <Box key={index} title={item.title}
+                                user = {user}
                                 id={index}
                                 image_src={item.image_src}
                                 image_id={item.image_id}
-                                caption_en={item.caption_en}
-                                caption_zh={item.caption_zh}
+                                captions_en={item.captions_en}
+                                captions_zh={item.captions_zh}
                                 isChinese={item.isZh}
                                 category={item.title.substring(0, item.title.lastIndexOf('_'))}
                                 onSubmit={() => onSubmit({
                                     title: item.title,
                                     image_id: item.image_id,
                                     image_src: item.image_src,
-                                    caption_en: item.caption_en,
-                                    caption_zh: item.caption_zh,
+                                    captions_en: item.captions_en,
+                                    captions_zh: item.captions_zh,
                                     isZh: item.isZh,
                                 }, index)}
                                 onCaptionChange={(caption_en, caption_zh) => onCaptionChange(caption_en, caption_zh, index)}

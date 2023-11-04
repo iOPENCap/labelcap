@@ -12,8 +12,8 @@ export async function POST(
         // 将新caption写入到new文件夹中
         const newCaption = {
             'imgid': captionItem.image_id,
-            'caption_en': captionItem.caption_en,
-            'caption_zh': captionItem.caption_zh,
+            'caption_en': captionItem.captions_en,
+            'caption_zh': captionItem.captions_zh,
             'filepath': captionItem.image_src,
             'title': captionItem.title,
             'legal': captionItem.isZh? 'zh': 'en',
