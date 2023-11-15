@@ -161,7 +161,7 @@ const Stat = () => {
                                     <TableCell>{stat.last_week_labeled_num}</TableCell>
                                     <TableCell>{2863 - stat.labeled_num}</TableCell>
                                     <TableCell className="text-right">
-                                        {stat.labeled_num}/
+                                        {stat.last_week_labeled_num}/
                                         {Math.ceil((31500 - statInfo.labeled_num) / (remainDays as number) * 7 / Object.keys(statInfo.user_stat).length)}
                                     </TableCell>
                                 </TableRow>
