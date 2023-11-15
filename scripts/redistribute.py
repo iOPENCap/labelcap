@@ -31,10 +31,12 @@ import os
 import json
 
 json_sum = []
+n = 0
 for user in os.listdir('../public/data'):
     if user == 'server':
         continue
 
+    n += 1
     user_dir = f'../public/data/{user}/captions'
     origin_dir = user_dir + '/origin/'
 
@@ -45,10 +47,8 @@ for user in os.listdir('../public/data'):
         item = json.load(open(origin_dir + file, 'r'))
         json_sum.append(item)
     
-# 将数据集随机均分为 11 份
+# 将数据集随机均分为 n 份（n=用户数）
 import random
-
-n = 11
 
 random.shuffle(json_sum)
 length = len(json_sum)
@@ -73,6 +73,10 @@ for user in os.listdir('../public/data'):
 
     if not os.path.exists(origin_dir):
         os.makedirs(origin_dir)
+    
+    # 删除 origin_dir 中所有原有文件
+    for file in os.listdir(origin_dir):
+        os.remove(origin_dir + '/' + file)
 
     for caption in sublist:
         title = caption['title']
