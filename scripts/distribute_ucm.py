@@ -41,6 +41,7 @@ captions = []
 for raw_caption in raw_captions:
 
     caption = {}
+    caption['dataset'] = 'ucm'
     caption['title'] = raw_caption['filename']
     caption['imgid'] = raw_caption['imgid']
     # check filepath

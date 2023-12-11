@@ -76,6 +76,7 @@ for caption_en, caption_zh in zip(captions_en, captions_zh):
     assert caption_en['imgid'] == caption_zh['imgid']
 
     caption = {}
+    caption['dataset'] = 'NWPU'
     caption['title'] = caption_en['filename']
     caption['imgid'] = caption_en['imgid']
     caption['filepath'] = [f'/data/server/datasets/images/NWPU-RESISC45/{caption_zh["filepath"]}/{caption_zh["filename"]}']

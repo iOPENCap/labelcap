@@ -1,11 +1,13 @@
 
 export interface CaptionItem {
     title: string,
+    dataset: string,
     image_src: string[],
     image_id: number,
     captions_en: string[],
     captions_zh: string[],
     isZh: boolean | null,
+    caption_filename: string,
 }
 
 export interface User {
