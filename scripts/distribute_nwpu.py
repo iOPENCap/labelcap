@@ -1,6 +1,8 @@
 # 从 server 目录中获取原始 nwpu 数据集
 # 平均随机分发给每个用户
 
+reserve_old = True     # 是否保留原有的 caption 文件
+
 '''
 dataset_nwpu_en.json 格式：
 
@@ -59,8 +61,8 @@ import os
 import json
 import random
 
-file_en = json.load(open('../public/data/server/dataset_nwpu_en.json', 'r'))
-file_zh = json.load(open('../public/data/server/dataset_nwpu_zh.json', 'r'))
+file_en = json.load(open('../public/data/server/datasets/captions/dataset_nwpu_en.json', 'r'))
+file_zh = json.load(open('../public/data/server/datasets/captions/dataset_nwpu_zh.json', 'r'))
 
 captions_en = []
 for classname, classdata in file_en.items():
@@ -76,7 +78,7 @@ for caption_en, caption_zh in zip(captions_en, captions_zh):
     caption = {}
     caption['title'] = caption_en['filename']
     caption['imgid'] = caption_en['imgid']
-    caption['filepath'] = [f'/data/server/NWPU-RESISC45/{caption_zh["filepath"]}/{caption_zh["filename"]}']
+    caption['filepath'] = [f'/data/server/datasets/images/NWPU-RESISC45/{caption_zh["filepath"]}/{caption_zh["filename"]}']
     
     # 加入中文描述
     sentences_zh = []
@@ -95,8 +97,11 @@ for caption_en, caption_zh in zip(captions_en, captions_zh):
 # 随机打乱
 random.shuffle(captions)
 
-# 均分为 11 份
-n = 11
+# 均分为 n 份（n 为用户数）
+
+# 求出 n 的值，n 为 '../public/data' 目录下的目录数 - 1
+n = len(os.listdir('../public/data')) - 1
+
 size = len(captions) // n
 sublists = [captions[i:i+size] for i in range(0, len(captions), size)]
 if len(sublists) > n:
@@ -116,11 +121,13 @@ for user in os.listdir('../public/data'):
     user_dir = f'../public/data/{user}/captions'
     origin_dir = user_dir + '/origin'
 
-    if os.path.exists(origin_dir):
+    if os.path.exists(origin_dir) and not reserve_old:
         # 删除目录
         os.system(f'rm -rf {origin_dir}')
-    os.makedirs(origin_dir)
+
+    if not os.path.exists(origin_dir):
+        os.makedirs(origin_dir)
 
     for caption in sublist:
         title = caption['title']
-        json.dump(caption, open(f'{origin_dir}/{title}.json', 'w'))
+        json.dump(caption, open(f'{origin_dir}/NWPU_{title}.json', 'w'))
