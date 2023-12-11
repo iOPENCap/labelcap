@@ -14,13 +14,28 @@ const getCaptions = async (user: string) => {
         });
 
         if (!res.ok) {
-            console.log('error when fetching captions');
+            console.log('res not ok when fetching captions');
             throw new Error(res.statusText);
         }
 
         const data = await res.json();
+        
+        console.log(data.itemList);
+
+        // 用空字符串补全 data.itemList 中每个元素的 captions_en 和 captions_zh 直至两者长度相等。
+        for (let i = 0; i < data.itemList.length; i++) {
+            while (data.itemList[i].captions_en.length < data.itemList[i].captions_zh.length) {
+                data.itemList[i].captions_en.push('');
+            }
+            while (data.itemList[i].captions_en.length > data.itemList[i].captions_zh.length) {
+                data.itemList[i].captions_zh.push('');
+            }
+        }
+
         return data.itemList;
+
     } catch (error) {
+        console.log('error when fetching captions');
         console.log(error);
         return ['error'];
     }
