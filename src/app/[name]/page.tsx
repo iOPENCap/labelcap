@@ -93,8 +93,10 @@ const Label: FC<LabelProps> = ({ params }) => {
             </div>
 
             {captions.length > 0 && captions.slice(0, 4).map((item, index) => (
-                <Box key={index} title={item.title}
-                    user = {user}
+                <Box key={index}
+                    title={item.title}
+                    dataset={item.dataset}
+                    user={user}
                     id={index}
                     image_src={item.image_src}
                     image_id={item.image_id}
@@ -102,14 +104,16 @@ const Label: FC<LabelProps> = ({ params }) => {
                     captions_zh={item.captions_zh}
                     isChinese={isChinese}
                     category={item.title.substring(0, item.title.lastIndexOf('_'))}
+                    caption_filename={item.caption_filename}
                     onSubmit={() => onSubmit({
                         title: item.title,
+                        dataset: item.dataset,
                         image_id: item.image_id,
                         image_src: item.image_src,
                         captions_en: item.captions_en,
                         captions_zh: item.captions_zh,
                         isZh: isChinese,
-                        // raw_captions: item.raw_captions,
+                        caption_filename: item.caption_filename,
                     }, index)}
                     onCaptionChange={(captions_en, captions_zh) => onCaptionChange(captions_en, captions_zh, index)}
                 />

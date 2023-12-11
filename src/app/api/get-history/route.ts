@@ -17,7 +17,9 @@ export async function POST(
             const caption = await JSON.parse(data);
 
             itemList.push({
+                caption_filename: file,
                 title: caption['title'],
+                dataset: caption['dataset'],
                 image_id: caption['imgid'],
                 image_src: caption['filepath'],
                 captions_en: caption['caption_en'],

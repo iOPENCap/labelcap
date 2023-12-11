@@ -12,7 +12,9 @@ interface BoxProps {
     id: number,
     className?: string,
     image_src: string[],
+    caption_filename: string,
     title: string,
+    dataset: string,
     category: string,
     image_id: number,
     captions_en: string[],
@@ -29,8 +31,10 @@ const Box: React.FC<BoxProps> = ({
     className,
     image_src,
     title,
+    caption_filename,
     category,
     image_id,
+    dataset,
     captions_en,
     captions_zh,
     isChinese,
@@ -48,12 +52,11 @@ const Box: React.FC<BoxProps> = ({
             <div className="flex w-full">
                 <div className="flex w-1/3 flex-col mt-6 ">
                     <div className="mt-4 md:mt-0 flex flex-col">
-
+                        <p><span className="text-neutral-400">Dataset<br /></span>{dataset}</p>
                         <p><span className="text-neutral-400">Image ID<br /></span>{image_id}</p>
-                        <p><span className="text-neutral-400">Category<br /></span>{category}</p>
-
-                        <p><span className="text-neutral-400">Source<br /></span>public/data/{user}/ captions/orgin/{title}.json</p>
-                        <p><span className="text-neutral-400">Target &#40;will be&#41;<br /></span>public/data/{user}/ captions/new/{title}.json</p>
+                        {category.length > 0 && <p><span className="text-neutral-400">Category<br /></span>{category}</p>}
+                        <p><span className="text-neutral-400">Source<br /></span>public/data/{user}/captions/orgin/{caption_filename}</p>
+                        <p><span className="text-neutral-400">Target &#40;will be&#41;<br /></span>public/data/{user}/captions/new/{caption_filename}</p>
                     </div>
 
                     {/* 若图片个数小于3，则一行排完；否则按3个为一行排列 */}
@@ -77,7 +80,7 @@ const Box: React.FC<BoxProps> = ({
                             并在上面用 text 显示英文以辅助（如有） */
                             <>
                                 <h1 className="text-xl font-bold">Chinese</h1>
-                                {captions_zh.map((item, index) => (
+                                {captions_zh.length > 0 ? captions_zh.map((item, index) => (
                                     <div>
                                         <p className="p-2 text-neutral-400">{captions_en[index]}</p>
                                         <textarea
@@ -91,14 +94,17 @@ const Box: React.FC<BoxProps> = ({
                                             }}
                                         />
                                     </div>
-                                ))}
+                                )) : (
+                                    <div>
+                                        <p className="text-red-500 text-lg">No Chinese Captions</p>
+                                    </div>)}
                             </>
                         ) : (
                             /* 如果 toggle 切换为英文，则用 textare 显示英文，
                             并在上面用 text 显示中文以辅助（如有） */
                             <>
                                 <h1 className="text-xl font-bold">English</h1>
-                                {captions_en.map((item, index) => (
+                                {captions_en.length > 0 ? captions_en.map((item, index) => (
                                     <div>
                                         <p className="p-2 text-neutral-400">{captions_zh[index]}</p>
                                         <textarea
@@ -112,7 +118,9 @@ const Box: React.FC<BoxProps> = ({
                                             }}
                                         />
                                     </div>
-                                ))}
+                                )) : (<div>
+                                    <p className="text-red-500 text-lg">No English Captions</p>
+                                </div>)}
                             </>
                         )}
                     </div>

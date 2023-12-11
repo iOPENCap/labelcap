@@ -10,20 +10,19 @@ export async function POST(
         const { user } = await req.json();
 
         // Get the first 20 captions from `public/data/${user}/captions/origin`
-        const captionsDir = `public/data/${user}/captions/origin`;
-        const topCaptions = fs.readdirSync(captionsDir).slice(0, 20);
+        const filesDir = `public/data/${user}/captions/origin`;
+        const topFiles = fs.readdirSync(filesDir).slice(0, 20);
 
         // Read the captions
-        const data: string[] = [];
-        for (const caption of topCaptions) {
-            data.push(fs.readFileSync(`${captionsDir}/${caption}`, 'utf8'));
-        }
-        const captions = await JSON.parse(`[${data}]`);
-
         const itemList: CaptionItem[] = [];
-        for (const caption of captions) {
+        for (const file of topFiles) {
+            const data = fs.readFileSync(`${filesDir}/${file}`, 'utf8');
+            const caption = await JSON.parse(data);
+
             itemList.push({
+                caption_filename: file,
                 title: caption['title'],
+                dataset: caption['dataset'],
                 image_id: caption['imgid'],
                 image_src: caption['filepath'],
                 captions_en: caption['caption_en'],
@@ -31,6 +30,7 @@ export async function POST(
                 isZh: null,
             })
         }
+        
         return NextResponse.json({ itemList: itemList });
     } catch (err: any) {
         console.log(err);

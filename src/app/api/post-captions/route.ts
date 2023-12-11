@@ -12,6 +12,7 @@ export async function POST(
         // 将新caption写入到new文件夹中
         const newCaption = {
             'imgid': captionItem.image_id,
+            'dataset': captionItem.dataset,
             'caption_en': captionItem.captions_en,
             'caption_zh': captionItem.captions_zh,
             'filepath': captionItem.image_src,
@@ -22,10 +23,10 @@ export async function POST(
         if (!fs.existsSync(`public/data/${user}/captions/new`)) {
             fs.mkdirSync(`public/data/${user}/captions/new`, { recursive: true });
         }
-        fs.writeFileSync(`public/data/${user}/captions/new/${captionItem.title}.json`, JSON.stringify(newCaption));
+        fs.writeFileSync(`public/data/${user}/captions/new/${captionItem.caption_filename}.json`, JSON.stringify(newCaption));
 
         // 在origin中删除该caption
-        fs.unlinkSync(`public/data/${user}/captions/origin/${captionItem.title}.json`);
+        fs.unlinkSync(`public/data/${user}/captions/origin/${captionItem.caption_filename}.json`);
 
         return new NextResponse('OK', { status: 200 });
 
