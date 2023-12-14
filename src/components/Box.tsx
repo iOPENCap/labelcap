@@ -48,7 +48,14 @@ const Box: React.FC<BoxProps> = ({
             className={twMerge(
                 'w-full bg-gray-100 pl-0 md:pl-8 flex-col flex items-start rounded-md border p-4 shadow-md',
                 className)}>
-            <h1 className="md:text-xl w-full text-lg font-bold mb-2 mt-8 break-words">{title}</h1>
+            <div className="flex justify-between w-full mb-2 mt-8">
+                <h1 className="md:text-xl w-full text-lg font-bold break-words">{title}</h1>
+                <button className="bg-zinc-800 hover:bg-zinc-600 text-white rounded-md w-24 h-10"
+                    onClick={onSubmit}>
+                    提交
+                </button>
+            </div>
+
             <div className="flex w-full">
                 <div className="flex w-1/3 flex-col mt-6 ">
                     <div className="mt-4 md:mt-0 flex flex-col">
@@ -74,7 +81,7 @@ const Box: React.FC<BoxProps> = ({
                 </div>
 
                 <div className="flex w-2/3 md:flex-row md:space-x-8 mt-6 flex-col space-y-8 md:space-y-0">
-                    <div className="flex-col w-full space-y-4">
+                    <div className="flex-col w-full">
                         {isChinese ? (
                             /* 如果 toggle 切换为中文，则用 textare 显示中文，
                             并在上面用 text 显示英文以辅助（如有） */
@@ -82,7 +89,7 @@ const Box: React.FC<BoxProps> = ({
                                 <h1 className="text-xl font-bold">Chinese</h1>
                                 {captions_zh.length > 0 ? captions_zh.map((item, index) => (
                                     <div>
-                                        <p className="p-2 text-neutral-400">{captions_en[index]}</p>
+                                        <p className="p-2 text-neutral-500">{captions_en[index]}</p>
                                         <textarea
                                             className="p-2 border border-gray-300 rounded-md h-14 w-full"
                                             key={index}
@@ -106,7 +113,7 @@ const Box: React.FC<BoxProps> = ({
                                 <h1 className="text-xl font-bold">English</h1>
                                 {captions_en.length > 0 ? captions_en.map((item, index) => (
                                     <div>
-                                        <p className="p-2 text-neutral-400">{captions_zh[index]}</p>
+                                        <p className="pl-2 text-neutral-400">{captions_zh[index]}</p>
                                         <textarea
                                             className="p-4 border border-gray-300 rounded-md md:h-auto h-32 w-full"
                                             key={index}
@@ -131,16 +138,6 @@ const Box: React.FC<BoxProps> = ({
                 <Switch checked={isFixed} onCheckedChange={setIsFixed} />
 
                 <p className="ml-4 text-lg">固定图片</p>
-            </div>
-
-
-
-            <div className="flex justify-between w-full mt-4 pr-4">
-                <div className="flex flex-row mt-4 items-center" />
-                <button className="bg-zinc-800 hover:bg-zinc-600 text-white rounded-md w-24 h-10"
-                    onClick={onSubmit}>
-                    提交
-                </button>
             </div>
 
         </div>
