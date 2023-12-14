@@ -12,6 +12,8 @@ export async function GET() {
         const statInfo: StatInfo = {
             labeled_num: 0,
             last_week_labeled_num: 0,
+            total_to_label_num: 0,
+            user_num: 0,
             user_stat: {},
         }
         const users: string[] = fs.readdirSync('public/data');
@@ -28,17 +30,29 @@ export async function GET() {
                 continue;
             }
 
-            let files: string[] = [];
+            // 用户数计数
+            statInfo.user_num++;
+
+            // 该用户已标注的文件
+            let labeled_files: string[] = [];
             if (fs.existsSync(`public/data/${user}/captions/new`)) {
-                files = fs.readdirSync(`public/data/${user}/captions/new`);
+                labeled_files = fs.readdirSync(`public/data/${user}/captions/new`);
             }
 
+            // 该用户还未标注的文件
+            let to_label_files: string[] = [];
+            if (fs.existsSync(`public/data/${user}/captions/origin`)) {
+                to_label_files = fs.readdirSync(`public/data/${user}/captions/origin`);
+            }
+
+            // 总已标注数量
+            const total_labeled_num = labeled_files.length;
             // 总标注数量
-            const total_num = files.length;
+            const total_to_label_num = total_labeled_num + to_label_files.length;
 
             // 过去一周的标注数量
             let last_week_num = 0;
-            for (const file of files) {
+            for (const file of labeled_files) {
                 const stat = fs.statSync(`public/data/${user}/captions/new/${file}`);
                 const mtime = new Date(stat.mtime);
                 const now = new Date();
@@ -50,10 +64,11 @@ export async function GET() {
             }
 
             // 更新统计信息
-            statInfo.labeled_num += total_num;
+            statInfo.labeled_num += total_labeled_num;
             statInfo.last_week_labeled_num += last_week_num;
+            statInfo.total_to_label_num += total_to_label_num;
             statInfo.user_stat[user] = {
-                labeled_num: total_num,
+                labeled_num: total_labeled_num,
                 last_week_labeled_num: last_week_num,
             }
         }
