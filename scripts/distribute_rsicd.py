@@ -32,13 +32,23 @@ import os
 import json
 import random
 
-file = json.load(open('../public/data/server/datasets/captions/dataset_rsicd_modified.json', 'r'))
+# set base dir
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
-raw_captions = file['images']
+en_file = json.load(open('../public/data/server/datasets/captions/dataset_rsicd_modified.json', 'r'))
+zh_files = [file for file in sorted(os.listdir('../public/data/server/datasets/captions/cap_zh')) if file.find('rsi') != -1]
+
+captions_en = en_file['images']
+captions_zh = []
+for zh_file in zh_files:
+    zh_file = open(f'../public/data/server/datasets/captions/cap_zh/{zh_file}')
+    # 去掉末尾的换行符
+    captions_zh.extend([line.strip() for line in zh_file.readlines()])
 
 captions = []
+zh_index = 0
 
-for raw_caption in raw_captions:
+for raw_caption in captions_en:
 
     caption = {}
     caption['dataset'] = 'RSICD'
@@ -54,8 +64,9 @@ for raw_caption in raw_captions:
         sentences_en.append(sentence['raw'])
     caption['caption_en'] = sentences_en
     
-    # 加入中文描述（无中文）
-    caption['caption_zh'] = []
+    # 加入中文描述，中文与英文条数相等
+    caption['caption_zh'] = captions_zh[zh_index:zh_index + len(sentences_en)]
+    zh_index += len(sentences_en)
 
     captions.append(caption)
 
@@ -95,4 +106,4 @@ for user in os.listdir('../public/data'):
 
     for caption in sublist:
         title = caption['title']
-        json.dump(caption, open(f'{origin_dir}/RSICD_{title}.json', 'w'))
+        json.dump(caption, open(f'{origin_dir}/RSICD_{title}.json', 'w'), ensure_ascii=False)

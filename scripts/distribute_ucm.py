@@ -32,13 +32,18 @@ import os
 import json
 import random
 
-file = json.load(open('../public/data/server/datasets/captions/dataset_ucm_modified.json', 'r'))
+en_file = json.load(open('../public/data/server/datasets/captions/dataset_ucm_modified.json', 'r'))
+zh_file = open('../public/data/server/datasets/captions/cap_zh/ucm.txt_zh.txt')
 
-raw_captions = file['images']
+captions_en = en_file['images']
+captions_zh = zh_file.readlines()
+# 去掉末尾的换行符
+captions_zh = [line.strip() for line in captions_zh]
 
 captions = []
+zh_index = 0
 
-for raw_caption in raw_captions:
+for raw_caption in captions_en:
 
     caption = {}
     caption['dataset'] = 'ucm'
@@ -54,8 +59,9 @@ for raw_caption in raw_captions:
         sentences_en.append(sentence['raw'])
     caption['caption_en'] = sentences_en
     
-    # 加入中文描述（无中文）
-    caption['caption_zh'] = []
+    # 加入中文描述，中文与英文条数相等
+    caption['caption_zh'] = captions_zh[zh_index:zh_index + len(sentences_en)]
+    zh_index += len(sentences_en)
 
     captions.append(caption)
 
@@ -95,4 +101,4 @@ for user in os.listdir('../public/data'):
 
     for caption in sublist:
         title = caption['title']
-        json.dump(caption, open(f'{origin_dir}/ucm_{title}.json', 'w'))
+        json.dump(caption, open(f'{origin_dir}/ucm_{title}.json', 'w'), ensure_ascii=False)
