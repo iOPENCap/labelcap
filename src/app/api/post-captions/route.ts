@@ -23,10 +23,10 @@ export async function POST(
         if (!fs.existsSync(`public/data/${user}/captions/new`)) {
             fs.mkdirSync(`public/data/${user}/captions/new`, { recursive: true });
         }
-        fs.writeFileSync(`public/data/${user}/captions/new/${captionItem.caption_filename}.json`, JSON.stringify(newCaption));
+        fs.writeFileSync(`public/data/${user}/captions/new/${captionItem.caption_filename}`, JSON.stringify(newCaption));
 
         // 在origin中删除该caption
-        fs.unlinkSync(`public/data/${user}/captions/origin/${captionItem.caption_filename}.json`);
+        fs.unlinkSync(`public/data/${user}/captions/origin/${captionItem.caption_filename}`);
 
         return new NextResponse('OK', { status: 200 });
 
