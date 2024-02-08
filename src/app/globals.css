@@ -25,3 +25,8 @@ body {
     )
     rgb(var(--background-start-rgb));
 } */
+
+@font-face {
+  font-family: "HarmonyOS_Sans_SC";
+  src: url("../../public/fonts/HarmonyOS_Sans_SC/HarmonyOS_Sans_SC_Medium.woff2");
+}
