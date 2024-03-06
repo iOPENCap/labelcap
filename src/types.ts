@@ -28,6 +28,7 @@ export interface StatInfo {
         [username: string]: {
             labeled_num: number,
             last_week_labeled_num: number,
+            to_label_num: number,
         }
     }
 }

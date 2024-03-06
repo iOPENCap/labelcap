@@ -22,7 +22,7 @@ export async function GET() {
         // 其他的目录都是用户目录
         for (const user of users) {
             // 跳过server目录
-            if (user === 'server') {
+            if (user === 'server' || user === 'test') {
                 continue;
             }
             // 跳过非目录
@@ -70,6 +70,7 @@ export async function GET() {
             statInfo.user_stat[user] = {
                 labeled_num: total_labeled_num,
                 last_week_labeled_num: last_week_num,
+                to_label_num: to_label_files.length,
             }
         }
 

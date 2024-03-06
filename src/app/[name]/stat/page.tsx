@@ -66,8 +66,6 @@ const useRemainDays = () => {
 const Stat = () => {
     const [statInfo, setStatInfo] = useState<StatInfo>();
     const [remainDays, setRemainDays] = useRemainDays();
-    // 每个用户应该标注的数量（向上取整）
-    const [taskPerUser, setTaskPerUser] = useState<number>(0);
 
     const exportPath = 'public/data/server/exports';
     const [isExporting, setIsExporting] = useState(false);
@@ -98,7 +96,6 @@ const Stat = () => {
         getStat().then(
             (data) => {
                 setStatInfo(data);
-                setTaskPerUser(Math.ceil(data.total_to_label_num / data.user_num));
             }
         );
     }, []);
@@ -123,7 +120,7 @@ const Stat = () => {
 
                 <div className="md:w-1/4 bg-gray-100 md:mx-6 p-8 rounded-xl flex-col shadow-md">
                     <p className="text-6xl font-bold">
-                        {statInfo ? Math.ceil(statInfo.labeled_num) : 'NaN'}/
+                        {statInfo ? Math.ceil(statInfo.last_week_labeled_num) : 'NaN'}/
                         {statInfo ? Math.ceil((statInfo.total_to_label_num - statInfo.labeled_num) / (remainDays as number) * 7) : 'NaN'}
                     </p>
                     <p className="mt-14 text-lg text-neutral-500">本周任务完成情况</p>
@@ -162,7 +159,7 @@ const Stat = () => {
                                     <TableCell className="font-medium">{username}</TableCell>
                                     <TableCell>{stat.labeled_num}</TableCell>
                                     <TableCell>{stat.last_week_labeled_num}</TableCell>
-                                    <TableCell>{taskPerUser - stat.labeled_num}</TableCell>
+                                    <TableCell>{stat.to_label_num}</TableCell>
                                     <TableCell className="text-right">
                                         {stat.last_week_labeled_num}/
                                         {Math.ceil((statInfo.total_to_label_num - statInfo.labeled_num) / (remainDays as number) * 7 / Object.keys(statInfo.user_stat).length)}
